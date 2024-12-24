@@ -23,7 +23,7 @@ export function Navigation() {
           <div className='flex items-center'>
             <Link href='/' className='flex items-center space-x-2'>
               <div className='h-8 w-8 rounded-full bg-purple-600' />
-              <span className='text-xl font-bold text-white'>Uizard</span>
+              <span className='text-xl font-bold text-white'>JuraganIT</span>
             </Link>
           </div>
 
