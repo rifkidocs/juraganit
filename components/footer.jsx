@@ -3,21 +3,9 @@ import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const footerLinks = {
-    Product: [
-      "AI UI Design",
-      "Design Systems",
-      "Wireframing",
-      "Prototyping",
-      "Design to Code",
-    ],
-    Resources: [
-      "UI Design Templates",
-      "Mobile App Templates",
-      "Web App Templates",
-      "Wireframe Examples",
-      "Prototype Examples",
-    ],
-    Company: ["About", "Blog", "Careers", "Pricing", "Contact"],
+    "Informasi Umum": ["Karir", "FAQ", "Tentang Kami"],
+    "Layanan Pengguna": ["Kontak", "Pemesanan", "Cek Dokumen"],
+    "Kebijakan dan Blog": ["Blog", "Syarat Ketentuan", "Kebijakan Privasi"],
   };
 
   return (
@@ -51,14 +39,9 @@ export function Footer() {
           ))}
         </div>
         <div className='mt-12 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between'>
-          <p className='text-xs text-gray-400'>
+          <p className='text-sm text-gray-400 mx-auto'>
             © 2024 Uizard Technologies. All rights reserved.
           </p>
-          <div className='mt-4 md:mt-0'>
-            <Button className='bg-purple-600 hover:bg-purple-700'>
-              Pemesanan
-            </Button>
-          </div>
         </div>
       </div>
     </footer>
