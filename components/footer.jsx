@@ -15,7 +15,9 @@ export function Footer() {
           <div>
             <div className='flex items-center'>
               <div className='h-8 w-8 rounded-full bg-purple-600' />
-              <span className='ml-2 text-xl font-bold text-white'>Uizard</span>
+              <span className='ml-2 text-xl font-bold text-white'>
+                JuraganIT
+              </span>
             </div>
             <p className='mt-4 text-sm text-gray-400'>
               Create product ideas that set you up for success
