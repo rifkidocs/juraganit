@@ -41,7 +41,7 @@ export function Footer() {
           ))}
         </div>
         <div className='mt-12 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between'>
-          <p className='text-sm text-gray-400 mx-auto'>
+          <p className='md:text-sm text-xs text-gray-400 mx-auto text-center'>
             © 2024 PT Juragan Karya Digital Teknologi. All rights reserved.
           </p>
         </div>
