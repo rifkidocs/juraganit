@@ -103,7 +103,9 @@ export function NavigationBlog() {
             <div className='space-y-1 px-2 pb-3 pt-2'>
               <div className='space-y-4'>
                 <div className='space-y-2'>
-                  <div className='text-base font-semibold'>Home</div>
+                  <Link href='/' className='text-base font-semibold'>
+                    Home
+                  </Link>
                 </div>
                 <div className='space-y-2'>
                   <div className='text-base font-semibold'>Tentang Kami</div>
