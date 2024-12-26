@@ -12,18 +12,18 @@ import {
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-export function Navigation() {
+export function NavigationBlog() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className='fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-md'>
+    <header className='fixed top-0 left-0 right-0 z-50 border-b border-black/10 bg-white '>
       <nav className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
           {/* Logo */}
           <div className='flex items-center'>
             <Link href='/' className='flex items-center space-x-2'>
               <div className='h-8 w-8 rounded-full bg-purple-600' />
-              <span className='text-xl font-bold text-white'>JuraganIT</span>
+              <span className='text-xl font-bold text-black'>JuraganIT</span>
             </Link>
           </div>
 
@@ -87,7 +87,7 @@ export function Navigation() {
           <div className='md:hidden'>
             <div
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className='text-white'>
+              className='text-black'>
               {isMenuOpen ? (
                 <X className='h-5 w-5' />
               ) : (
