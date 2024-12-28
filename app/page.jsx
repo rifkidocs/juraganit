@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className='min-h-screen bg-black text-white'>
       <Navigation />
-      <div className='w-full h-[1500px] flex absolute inset-0 overflow-hidden'>
+      <div className='w-full h-[1250px] flex absolute inset-0 overflow-hidden'>
         <img src='/blue_1.png' alt='Image' className='w-full' />
       </div>
 
