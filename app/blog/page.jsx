@@ -88,7 +88,7 @@ export default function BlogListing() {
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {posts.map((post, index) => (
-            <Link key={index} href='#' className='group'>
+            <Link key={index} href='/blog/article' className='group'>
               <Card className='overflow-hidden border-0 border-transparent shadow-none bg-transparent'>
                 <CardContent className='p-0 space-y-3'>
                   <div className='overflow-hidden rounded-lg'>
