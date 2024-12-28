@@ -30,7 +30,7 @@ export default function Home() {
               experiences in minutes. Empower your product team with AI.
             </p>
             <div className='mx-auto mt-10 max-w-xl'>
-              <div className='flex gap-2'>
+              <div className='flex gap-2 sm:flex-row flex-col'>
                 <Input
                   type='text'
                   placeholder='Enter some text to discover...'
