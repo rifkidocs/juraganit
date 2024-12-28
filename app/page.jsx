@@ -10,6 +10,10 @@ export default function Home() {
   return (
     <div className='min-h-screen bg-black text-white'>
       <Navigation />
+      <div className='w-full h-[1200px] flex absolute inset-0 overflow-hidden'>
+        <img src='/blue_1.png' alt='Image' className='w-full' />
+      </div>
+
       <section className='relative overflow-hidden pt-16'>
         <div className='relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8'>
           <div className='text-center'>
