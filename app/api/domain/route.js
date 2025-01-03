@@ -11,50 +11,28 @@ export async function GET(request) {
     );
   }
 
+  const url = `https://domainr.p.rapidapi.com/v2/status?domain=${encodeURIComponent(
+    domain
+  )}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "x-rapidapi-key": "0dadc79526msh9d91b50596e9cc0p1b4121jsn63b94126f07f",
+      "x-rapidapi-host": "domainr.p.rapidapi.com",
+    },
+  };
+
   try {
-    const response = await fetch(
-      `https://jsonwhoisapi.com/api/v1/whois?identifier=${domain}`,
-      {
-        headers: {
-          Authorization:
-            "Basic " +
-            Buffer.from("168439046:63ZpMVCB2AxwZAdD9LixEg").toString("base64"),
-        },
-      }
-    );
-
+    const response = await fetch(url, options);
     const data = await response.json();
-    console.log(data);
 
-    if (data.registered) {
-      // Jika domain terdaftar
-      return NextResponse.json({
-        domain,
-        available: false,
-        message: "Domain sudah terdaftar.",
-      });
-    } else if (data.errors && data.errors.server) {
-      // Jika terjadi kesalahan pada server whois
-      return NextResponse.json(
-        {
-          error: "Terjadi kesalahan pada server whois.",
-          details: data.errors.server,
-        },
-        { status: 500 }
-      );
-    } else {
-      // Jika domain tidak terdaftar
-      return NextResponse.json({
-        domain,
-        available: true,
-        message: "Domain tersedia.",
-      });
-    }
+    // Mengembalikan respons langsung dari API Domainr tanpa perubahan
+    return NextResponse.json(data);
   } catch (error) {
-    // Jika terjadi kesalahan lain
+    // Jika terjadi kesalahan saat mengakses API
     return NextResponse.json(
       {
-        error: "Terjadi kesalahan saat memeriksa ketersediaan domain.",
+        error: "Terjadi kesalahan saat mengakses API Domainr.",
         details: error.message,
       },
       { status: 500 }
