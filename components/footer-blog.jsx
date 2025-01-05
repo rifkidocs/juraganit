@@ -9,7 +9,7 @@ export function FooterBlog() {
   };
 
   return (
-    <footer className='bg-white border-t border-black/10 mt-24 w-full'>
+    <footer className='bg-white border-t border-black/10 w-full'>
       <div className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
         <div className='grid grid-cols-2 gap-8 md:grid-cols-4'>
           <div>

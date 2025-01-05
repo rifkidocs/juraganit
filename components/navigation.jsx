@@ -61,6 +61,15 @@ export function Navigation() {
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link
+                      href='/portofolio'
+                      className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-500/10 hover'>
+                      Portofolio
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
                       href='/blog'
                       className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-500/10 hover'>
                       Blog
@@ -110,6 +119,11 @@ export function Navigation() {
                 </div>
                 <div className='space-y-2'>
                   <div className='text-base font-semibold'>Layanan</div>
+                </div>
+                <div className='space-y-2'>
+                  <Link href='/portofolio' className='text-base font-semibold'>
+                    Portofolio
+                  </Link>
                 </div>
                 <div className='space-y-2'>
                   <Link href='/blog' className='text-base font-semibold'>

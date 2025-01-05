@@ -116,7 +116,7 @@ export default function BlogListing() {
           ))}
         </div>
 
-        <div className='flex justify-center gap-2 mt-6'>
+        <div className='flex justify-center gap-2 mt-6 mb-16'>
           {[1, 2, 3, 4].map((page) => (
             <Badge
               key={page}
