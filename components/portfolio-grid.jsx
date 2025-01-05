@@ -31,7 +31,7 @@ export function PortfolioGrid({ items }) {
           key={item.id}
           variants={itemVariants}
           whileHover={{ scale: 1.05 }}
-          className='group relative overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-lg'>
+          className='group relative overflow-hidden rounded-xl bg-white dark:bg-gray-800 border border-gray-300'>
           <motion.div
             className='relative aspect-[4/3] overflow-hidden'
             whileHover={{ scale: 1.03 }}

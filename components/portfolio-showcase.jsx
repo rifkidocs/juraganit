@@ -107,7 +107,7 @@ export default function PortfolioShowcase() {
       <div className='container mx-auto px-4'>
         <PortfolioGrid items={currentItems} />
 
-        <div className='flex justify-center items-center gap-2 mt-8'>
+        <div className='flex justify-center items-center gap-2 md:mt-8 my-8'>
           <Button
             variant='outline'
             size='icon'
