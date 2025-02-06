@@ -1,3 +1,4 @@
+// app/blog/[article]/page.js
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,11 +16,28 @@ import { Badge } from "@/components/ui/badge";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { FooterBlog } from "@/components/footer-blog";
 
+// Fungsi untuk menghitung waktu baca
+function calculateReadTime(content) {
+  // Hapus HTML tags untuk mendapatkan teks murni
+  const plainText = content.replace(/<[^>]*>/g, "");
+
+  // Rata-rata kecepatan baca (kata per menit)
+  const wordsPerMinute = 225;
+
+  // Hitung jumlah kata
+  const wordCount = plainText.trim().split(/\s+/).length;
+
+  // Hitung waktu baca dalam menit
+  const readTime = Math.ceil(wordCount / wordsPerMinute);
+
+  return readTime;
+}
+
 async function getArticle(slug) {
-  const res = await fetch(
-    `https://rifkidocs.eu.org/api/articles?filters[slug][$eq]=${slug}`,
-    { next: { revalidate: 3600 } }
-  );
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${apiUrl}api/articles?filters[slug][$eq]=${slug}`, {
+    next: { revalidate: 3600 },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch article");
@@ -31,6 +49,7 @@ async function getArticle(slug) {
 
 export default async function BlogPost({ params }) {
   const article = await getArticle(params.article);
+  const readTimeMinutes = calculateReadTime(article.description);
 
   const recentPosts = [
     {
@@ -97,7 +116,7 @@ export default async function BlogPost({ params }) {
               </div>
               <div className='flex items-center gap-1'>
                 <Clock className='w-4 h-4' />
-                <span>3 min read</span>
+                <span>{readTimeMinutes} min read</span>
               </div>
             </div>
           </header>
@@ -196,7 +215,7 @@ export default async function BlogPost({ params }) {
       </div>
 
       {/* Related Posts */}
-      <section className='mt-12 mx-auto max-w-7xl mb-24'>
+      <section className='mt-12 mx-auto max-w-7xl'>
         <h2 className='text-2xl font-bold mb-6'>You might also like</h2>
         <div className='grid md:grid-cols-3 gap-6'>
           {[1, 2, 3].map((i) => (
