@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -5,8 +7,11 @@ import { Features } from "@/components/features";
 import { Testimonials } from "@/components/testimonials";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
+import { useEffect, useRef } from "react";
 
 export default function Home() {
+  const contentRef = useRef(null);
+
   return (
     <div className='min-h-screen bg-black text-white'>
       <Navigation />
@@ -75,7 +80,7 @@ export default function Home() {
               <div className='relative w-full py-3 mx-auto overflow-hidden text-lg italic tracking-wide text-white uppercase bg-black max-w-7xl sm:text-xs md:text-sm lg:text-base xl:text-xl 2xl:text-2xl'>
                 <div className='absolute left-0 z-20 w-40 h-full bg-gradient-to-r from-black to-transparent'></div>
                 <div className='absolute right-0 z-20 w-40 h-full bg-gradient-to-l from-black to-transparent'></div>
-                <div x-ref='content' className='flex animate-marquee'>
+                <div ref={contentRef} className='flex animate-marquee'>
                   <div
                     x-ref='item'
                     className='flex items-center justify-around flex-shrink-0 w-full py-2 space-x-2 text-white'>

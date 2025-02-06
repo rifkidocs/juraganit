@@ -5,56 +5,56 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function BlogListing() {
+export default async function BlogListing() {
   const categories = [
-    { name: "Trending News", color: "bg-orange-500" },
-    { name: "AI Design", color: "bg-blue-500" },
-    { name: "Wireframing", color: "bg-blue-600" },
-    { name: "Mockups", color: "bg-purple-500" },
-    { name: "UI Design", color: "bg-orange-600" },
-    { name: "UX Design", color: "bg-blue-400" },
-    { name: "Prototyping", color: "bg-yellow-500" },
-    { name: "App Design", color: "bg-purple-400" },
+    { name: "Tutorial", color: "bg-orange-500" },
+    { name: "HTML", color: "bg-blue-500" },
+    { name: "CSS", color: "bg-blue-600" },
+    { name: "JavaScript", color: "bg-purple-500" },
+    { name: "React", color: "bg-orange-600" },
+    { name: "Next.js", color: "bg-blue-400" },
+    { name: "Node.js", color: "bg-yellow-500" },
+    { name: "Database", color: "bg-purple-400" },
   ];
 
-  const posts = [
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/articles`,
     {
-      title: "Autodesigner 2.0 is here!",
-      date: "12 June 2024",
-      readTime: "4 min read",
-      image: "/placeholder.svg",
-    },
-    {
-      title: "Uizard joins Miro!",
-      date: "27 May 2024",
-      readTime: "3 min read",
-      image: "/placeholder.svg",
-    },
-    {
-      title: "A guide to AI wireframing",
-      date: "05 May 2024",
-      readTime: "4 min read",
-      image: "/placeholder.svg",
-    },
-    {
-      title: "How to quickly iterate when experiencing design bottlenecks",
-      date: "02 May 2024",
-      readTime: "3 min read",
-      image: "/placeholder.svg",
-    },
-    {
-      title: "What's New? April Updates",
-      date: "30 April 2024",
-      readTime: "2 min read",
-      image: "/placeholder.svg",
-    },
-    {
-      title: "How to use Uizard's Screenshot Scanner",
-      date: "23 April 2024",
-      readTime: "2 min read",
-      image: "/placeholder.svg",
-    },
-  ];
+      next: {
+        revalidate: 3600,
+      },
+    }
+  );
+  const data = await response.json();
+  const posts = data.data;
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  const createExcerpt = (htmlContent) => {
+    const stripHtml = (html) => {
+      return html.replace(/<[^>]*>/g, "");
+    };
+    const plainText = stripHtml(htmlContent);
+    return plainText.slice(0, 100) + "...";
+  };
+
+  // Helper function to get image URL from the API response
+  const getImageUrl = (post) => {
+    // Extract image URL from the description
+    const imgMatch = post.description.match(/<img[^>]+src="([^">]+)"/);
+    if (imgMatch && imgMatch[1]) {
+      // Return the first image found in the description
+      return imgMatch[1];
+    }
+    // Return placeholder if no image found
+    return "/placeholder.svg";
+  };
 
   return (
     <div className='mx-auto px-4 mt-24'>
@@ -62,16 +62,15 @@ export default function BlogListing() {
       <div className='max-w-4xl mx-auto'>
         <div className='space-y-4 mb-12'>
           <h1 className='text-4xl font-bold flex items-center gap-2'>
-            The Lizard Blog of Spells{" "}
-            <span role='img' aria-label='wand'>
-              ✨
+            JuraganIT Blog{" "}
+            <span role='img' aria-label='book'>
+              📚
             </span>
           </h1>
           <p className='text-lg text-muted-foreground'>
-            Welcome to the official Lizard blog, where you can learn about all
-            things design and read about all the latest magical Uizarding news.
-            Whether you are a seasoned pro or a design newcomer, there is
-            something for everyone in the Lizard Blog of Spells.
+            Welcome to JuraganIT blog, where you can learn about web
+            development, programming, and technology. Whether you're a beginner
+            or an experienced developer, there's something here for everyone.
           </p>
         </div>
 
@@ -87,13 +86,13 @@ export default function BlogListing() {
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {posts.map((post, index) => (
-            <Link key={index} href='/blog/article' className='group'>
+          {posts.map((post) => (
+            <Link key={post.id} href={`/blog/${post.slug}`} className='group'>
               <Card className='overflow-hidden border-0 border-transparent shadow-none bg-transparent'>
                 <CardContent className='p-0 space-y-3'>
                   <div className='overflow-hidden rounded-lg'>
                     <Image
-                      src={post.image}
+                      src={getImageUrl(post)}
                       alt={post.title}
                       width={600}
                       height={400}
@@ -105,10 +104,15 @@ export default function BlogListing() {
                       {post.title}
                     </h2>
                     <div className='flex items-center gap-3 text-sm text-muted-foreground'>
-                      <span>{post.date}</span>
+                      <span>{formatDate(post.createdAt)}</span>
                       <span>•</span>
-                      <span>{post.readTime}</span>
+                      <span>
+                        {Math.ceil(post.description.length / 1000)} min read
+                      </span>
                     </div>
+                    <p className='text-muted-foreground text-sm'>
+                      {createExcerpt(post.description)}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -117,10 +121,10 @@ export default function BlogListing() {
         </div>
 
         <div className='flex justify-center gap-2 mt-6 mb-16'>
-          {[1, 2, 3, 4].map((page) => (
+          {[1].map((page) => (
             <Badge
               key={page}
-              variant={page === 1 ? "default" : "secondary"}
+              variant='default'
               className='w-8 h-8 flex items-center justify-center cursor-pointer'>
               {page}
             </Badge>
