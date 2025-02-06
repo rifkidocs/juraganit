@@ -215,7 +215,7 @@ export default async function BlogPost({ params }) {
       </div>
 
       {/* Related Posts */}
-      <section className='mt-12 mx-auto max-w-7xl'>
+      <section className='mt-12 mx-auto max-w-7xl mb-24'>
         <h2 className='text-2xl font-bold mb-6'>You might also like</h2>
         <div className='grid md:grid-cols-3 gap-6'>
           {[1, 2, 3].map((i) => (
