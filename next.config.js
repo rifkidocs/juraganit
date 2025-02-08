@@ -7,13 +7,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "rifkidocs.eu.org",
-        pathname: "/uploads/**",
-      },
-    ],
+    domains: ["rifkidocs.eu.org"],
   },
 };
 

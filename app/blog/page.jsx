@@ -6,19 +6,37 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function BlogListing() {
-  const categories = [
-    { name: "Tutorial", color: "bg-orange-500" },
-    { name: "HTML", color: "bg-blue-500" },
-    { name: "CSS", color: "bg-blue-600" },
-    { name: "JavaScript", color: "bg-purple-500" },
-    { name: "React", color: "bg-orange-600" },
-    { name: "Next.js", color: "bg-blue-400" },
-    { name: "Node.js", color: "bg-yellow-500" },
-    { name: "Database", color: "bg-purple-400" },
-  ];
+  // Fetch categories from API
+  const categoriesResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
+  );
+  const categoriesData = await categoriesResponse.json();
+  const categories = categoriesData.data;
 
+  // Generate a consistent color for each category
+  const getColorForCategory = (categoryName) => {
+    const colors = [
+      "bg-blue-500",
+      "bg-orange-500",
+      "bg-purple-500",
+      "bg-green-500",
+      "bg-yellow-500",
+      "bg-red-500",
+      "bg-indigo-500",
+      "bg-pink-500",
+    ];
+    const index = categoryName.length % colors.length;
+    return colors[index];
+  };
+
+  // Fetch posts
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*`,
     {
       next: {
         revalidate: 3600,
@@ -44,15 +62,25 @@ export default async function BlogListing() {
     return plainText.slice(0, 100) + "...";
   };
 
-  // Helper function to get image URL from the API response
   const getImageUrl = (post) => {
-    // Extract image URL from the description
+    // Check if post has thumbnail
+    if (post.thumbnail) {
+      // Use the medium format if available, otherwise fall back to the original URL
+      const imageUrl =
+        post.thumbnail.formats?.medium?.url || post.thumbnail.url;
+      // Prepend API URL if the image URL is relative
+      return imageUrl.startsWith("http")
+        ? imageUrl
+        : `${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`;
+    }
+
+    // Fallback to first image in description if no thumbnail
     const imgMatch = post.description.match(/<img[^>]+src="([^">]+)"/);
     if (imgMatch && imgMatch[1]) {
-      // Return the first image found in the description
       return imgMatch[1];
     }
-    // Return placeholder if no image found
+
+    // Default placeholder if no images found
     return "/placeholder.svg";
   };
 
@@ -77,9 +105,11 @@ export default async function BlogListing() {
         <div className='flex flex-wrap gap-2 mb-8'>
           {categories.map((category) => (
             <Badge
-              key={category.name}
+              key={category.id}
               variant='secondary'
-              className={`${category.color} text-white hover:${category.color}`}>
+              className={`${getColorForCategory(
+                category.name
+              )} text-white hover:${getColorForCategory(category.name)}`}>
               {category.name}
             </Badge>
           ))}
