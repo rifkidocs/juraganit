@@ -29,7 +29,7 @@ function calculateReadTime(content) {
 async function getArticle(slug) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(
-    `${apiUrl}api/articles?filters[slug][$eq]=${slug}&populate=thumbnail`,
+    `${apiUrl}api/articles?filters[slug][$eq]=${slug}&populate=*`,
     {
       next: { revalidate: 3600 },
     }
@@ -104,24 +104,34 @@ export default async function BlogPost({ params }) {
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
           {/* Main Content */}
           <div className='lg:col-span-2'>
-            {/* Breadcrumb */}
+            {/* Updated Breadcrumb */}
             <nav className='flex items-center gap-2 text-sm text-muted-foreground mb-6'>
               <Link href='/blog' className='hover:text-primary'>
                 Blog
               </Link>
               <span>/</span>
+              {article.category && (
+                <>
+                  <Link
+                    href={`/blog/category/${article.category.slug}`}
+                    className='hover:text-primary'>
+                    {article.category.name}
+                  </Link>
+                  <span>/</span>
+                </>
+              )}
               <span className='text-muted-foreground'>{article.title}</span>
             </nav>
 
-            {/* Header */}
+            {/* Header with Updated Author Information */}
             <header className='mb-8'>
               <h1 className='text-4xl font-bold mb-4'>{article.title}</h1>
               <div className='flex flex-wrap items-center gap-4 text-sm text-muted-foreground'>
                 {article.author && (
-                  <div className='flex items-center gap-1'>
+                  <>
                     <User className='w-4 h-4' />
-                    <span>{article.author}</span>
-                  </div>
+                    <span>{article.author.name}</span>
+                  </>
                 )}
                 <div className='flex items-center gap-1'>
                   <Calendar className='w-4 h-4' />
@@ -134,10 +144,12 @@ export default async function BlogPost({ params }) {
                   <span>{readTimeMinutes} min read</span>
                 </div>
                 {article.category && (
-                  <div className='flex items-center gap-1'>
+                  <Link
+                    href={`/blog/category/${article.category.slug}`}
+                    className='flex items-center gap-1 hover:text-primary'>
                     <Folder className='w-4 h-4' />
-                    <span>{article.category}</span>
-                  </div>
+                    <span>{article.category.name}</span>
+                  </Link>
                 )}
               </div>
             </header>
