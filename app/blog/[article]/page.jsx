@@ -21,7 +21,7 @@ import { FooterBlog } from "@/components/footer-blog";
 
 function calculateReadTime(content) {
   const plainText = content.replace(/<[^>]*>/g, "");
-  const wordsPerMinute = 225;
+  const wordsPerMinute = 180; // Disesuaikan untuk kecepatan membaca bahasa Indonesia
   const wordCount = plainText.trim().split(/\s+/).length;
   return Math.ceil(wordCount / wordsPerMinute);
 }
@@ -36,7 +36,7 @@ async function getArticle(slug) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch article");
+    throw new Error("Gagal mengambil artikel");
   }
 
   const data = await res.json();
@@ -46,14 +46,101 @@ async function getArticle(slug) {
 function getThumbnailUrl(thumbnail, format = "large") {
   if (!thumbnail) return "/placeholder.svg";
 
-  // If the requested format exists, use it
   if (thumbnail.formats && thumbnail.formats[format]) {
     return `${process.env.NEXT_PUBLIC_API_URL}${thumbnail.formats[format].url}`;
   }
 
-  // Fallback to original image if format doesn't exist
   return `${process.env.NEXT_PUBLIC_API_URL}${thumbnail.url}`;
 }
+
+function formatDate(dateString) {
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date(dateString).toLocaleDateString("id-ID", options);
+}
+
+export async function generateMetadata({ params }) {
+  const article = await getArticle(params.article);
+  const thumbnailUrl = getThumbnailUrl(article.thumbnail, "large");
+
+  const plainTextDescription =
+    article.description.replace(/<[^>]*>/g, "").slice(0, 160) + "...";
+
+  return {
+    title: `${article.title} | Rifki Docs`,
+    description: plainTextDescription,
+    authors: [{ name: article.author?.name }],
+    openGraph: {
+      title: article.title,
+      description: plainTextDescription,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${article.slug}`,
+      siteName: "Rifki Docs",
+      images: [
+        {
+          url: thumbnailUrl,
+          width: article.thumbnail?.formats?.large?.width || 1200,
+          height: article.thumbnail?.formats?.large?.height || 630,
+          alt: article.title,
+        },
+      ],
+      locale: "id_ID",
+      type: "article",
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
+      authors: article.author?.name,
+      tags: article.tags
+        ? article.tags.split(",").map((tag) => tag.trim())
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: plainTextDescription,
+      images: [thumbnailUrl],
+      creator: "@rifkidev",
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${article.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+  };
+}
+
+const recentPosts = [
+  {
+    title: "Autodesigner 2.0 is here!",
+    image: "/placeholder.svg",
+    link: "#",
+  },
+  {
+    title: "Uizard joins Miro!",
+    image: "/placeholder.svg",
+    link: "#",
+  },
+  {
+    title: "A guide to AI wireframing",
+    image: "/placeholder.svg",
+    link: "#",
+  },
+  {
+    title: "How to quickly iterate when experiencing design bottlenecks",
+    image: "/placeholder.svg",
+    link: "#",
+  },
+];
 
 export default async function BlogPost({ params }) {
   const article = await getArticle(params.article);
@@ -62,29 +149,6 @@ export default async function BlogPost({ params }) {
   const tagList = article.tags
     ? article.tags.split(",").map((tag) => tag.trim())
     : [];
-
-  const recentPosts = [
-    {
-      title: "Autodesigner 2.0 is here!",
-      image: "/placeholder.svg",
-      link: "#",
-    },
-    {
-      title: "Uizard joins Miro!",
-      image: "/placeholder.svg",
-      link: "#",
-    },
-    {
-      title: "A guide to AI wireframing",
-      image: "/placeholder.svg",
-      link: "#",
-    },
-    {
-      title: "How to quickly iterate when experiencing design bottlenecks",
-      image: "/placeholder.svg",
-      link: "#",
-    },
-  ];
 
   return (
     <div className='px-4 mt-24'>
@@ -104,7 +168,7 @@ export default async function BlogPost({ params }) {
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
           {/* Main Content */}
           <div className='lg:col-span-2'>
-            {/* Updated Breadcrumb */}
+            {/* Breadcrumb */}
             <nav className='flex items-center gap-2 text-sm text-muted-foreground mb-6'>
               <Link href='/blog' className='hover:text-primary'>
                 Blog
@@ -123,7 +187,7 @@ export default async function BlogPost({ params }) {
               <span className='text-muted-foreground'>{article.title}</span>
             </nav>
 
-            {/* Header with Updated Author Information */}
+            {/* Header */}
             <header className='mb-8'>
               <h1 className='text-4xl font-bold mb-4'>{article.title}</h1>
               <div className='flex flex-wrap items-center gap-4 text-sm text-muted-foreground'>
@@ -135,13 +199,11 @@ export default async function BlogPost({ params }) {
                 )}
                 <div className='flex items-center gap-1'>
                   <Calendar className='w-4 h-4' />
-                  <span>
-                    {new Date(article.publishedAt).toLocaleDateString()}
-                  </span>
+                  <span>{formatDate(article.publishedAt)}</span>
                 </div>
                 <div className='flex items-center gap-1'>
                   <Clock className='w-4 h-4' />
-                  <span>{readTimeMinutes} min read</span>
+                  <span>{readTimeMinutes} menit membaca</span>
                 </div>
                 {article.category && (
                   <Link
@@ -180,7 +242,7 @@ export default async function BlogPost({ params }) {
             {/* Share Section */}
             <Card>
               <CardContent className='p-6'>
-                <h2 className='text-xl font-semibold mb-4'>Share</h2>
+                <h2 className='text-xl font-semibold mb-4'>Bagikan</h2>
                 <div className='flex flex-wrap gap-2'>
                   <Button variant='outline' size='icon'>
                     <Twitter className='w-4 h-4' />
@@ -227,7 +289,7 @@ export default async function BlogPost({ params }) {
             {tagList.length > 0 && (
               <Card>
                 <CardContent className='p-6'>
-                  <h2 className='text-xl font-semibold mb-4'>Tags</h2>
+                  <h2 className='text-xl font-semibold mb-4'>Tag</h2>
                   <div className='flex flex-wrap gap-2'>
                     {tagList.map((tag, index) => (
                       <Link
@@ -250,31 +312,6 @@ export default async function BlogPost({ params }) {
         </div>
       </div>
 
-      {/* Related Posts */}
-      <section className='mt-12 mx-auto max-w-7xl mb-24'>
-        <h2 className='text-2xl font-bold mb-6'>You might also like</h2>
-        <div className='grid md:grid-cols-3 gap-6'>
-          {[1, 2, 3].map((i) => (
-            <Card key={i}>
-              <CardContent className='p-4'>
-                <div className='relative w-full aspect-[16/9] mb-4 rounded-lg overflow-hidden'>
-                  <Image
-                    src='/placeholder.svg'
-                    alt='Related post thumbnail'
-                    fill
-                    className='object-cover'
-                  />
-                </div>
-                <h3 className='font-semibold mb-2'>Product Leader Awards</h3>
-                <div className='flex items-center gap-2 text-sm text-muted-foreground'>
-                  <Calendar className='w-4 h-4' />
-                  <span>16 April 2024</span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
       <FooterBlog />
     </div>
   );
