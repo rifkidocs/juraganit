@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { Badge } from "@/components/ui/badge";
@@ -6,23 +7,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function CategoryPage({ params }) {
-  // Fetch category data with its articles based on the slug
   const categoryResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?filters[slug][$eq]=${params.category}&populate=*`,
-    {
-      next: {
-        revalidate: 3600,
-      },
-    }
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?filters[slug][$eq]=${params.category}&populate[articles][populate]=*`
   );
   const categoryData = await categoryResponse.json();
-  const category = categoryData.data[0]; // Get the first (and should be only) category
+  const category = categoryData.data[0];
 
   if (!category) {
     return <div>Category not found</div>;
   }
 
-  // Generate a consistent color for the category
   const getColorForCategory = (categoryName) => {
     const colors = [
       ["bg-blue-500", "hover:bg-blue-600"],
@@ -57,20 +51,29 @@ export default async function CategoryPage({ params }) {
   const getImageUrl = (article) => {
     // Check if article has thumbnail
     if (article.thumbnail) {
+      // Try to get medium format first, then fall back to original
       const imageUrl =
         article.thumbnail.formats?.medium?.url || article.thumbnail.url;
-      return imageUrl.startsWith("http")
-        ? imageUrl
-        : `${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`;
+
+      // If URL is relative, prepend API URL
+      if (imageUrl.startsWith("/")) {
+        return `${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`;
+      }
+      return imageUrl;
     }
 
-    // Fallback to first image in description
+    // If no thumbnail, try to get first image from description
     const imgMatch = article.description.match(/<img[^>]+src="([^">]+)"/);
     if (imgMatch && imgMatch[1]) {
-      return imgMatch[1];
+      const imgUrl = imgMatch[1];
+      // If URL is relative, prepend API URL
+      if (imgUrl.startsWith("/")) {
+        return `${process.env.NEXT_PUBLIC_API_URL}${imgUrl}`;
+      }
+      return imgUrl;
     }
 
-    // Default placeholder
+    // Default placeholder if no image found
     return "/placeholder.svg";
   };
 
@@ -87,9 +90,6 @@ export default async function CategoryPage({ params }) {
               } text-white px-4 py-1`}>
               {category.name}
             </Badge>
-            {/* <span className='text-muted-foreground'>
-              {category.articles.length} articles
-            </span> */}
           </div>
           <h1 className='text-4xl font-bold'>Articles in {category.name}</h1>
           {category.description && (

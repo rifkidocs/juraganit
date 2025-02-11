@@ -1,4 +1,4 @@
-// app/blog/[article]/page.js
+export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -29,10 +29,7 @@ function calculateReadTime(content) {
 async function getArticle(slug) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(
-    `${apiUrl}api/articles?filters[slug][$eq]=${slug}&populate=*`,
-    {
-      next: { revalidate: 3600 },
-    }
+    `${apiUrl}api/articles?filters[slug][$eq]=${slug}&populate=*`
   );
 
   if (!res.ok) {

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { Badge } from "@/components/ui/badge";
@@ -9,11 +10,7 @@ export default async function CategoryListing() {
   // Fetch categories with their articles
   const categoriesResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories?populate=*`,
-    {
-      next: {
-        revalidate: 3600,
-      },
-    }
+    {}
   );
   const categoriesData = await categoriesResponse.json();
   const categories = categoriesData.data;

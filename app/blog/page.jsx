@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { Badge } from "@/components/ui/badge";
@@ -9,11 +10,7 @@ export default async function BlogListing() {
   // Fetch categories from API
   const categoriesResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
-    {
-      next: {
-        revalidate: 3600,
-      },
-    }
+    {}
   );
   const categoriesData = await categoriesResponse.json();
   const categories = categoriesData.data;
@@ -37,11 +34,7 @@ export default async function BlogListing() {
   // Fetch posts
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*`,
-    {
-      next: {
-        revalidate: 3600,
-      },
-    }
+    {}
   );
   const data = await response.json();
   const posts = data.data;
