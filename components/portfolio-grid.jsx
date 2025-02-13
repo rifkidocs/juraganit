@@ -19,6 +19,8 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export function PortfolioGrid({ items }) {
   return (
     <motion.div
@@ -37,7 +39,7 @@ export function PortfolioGrid({ items }) {
             whileHover={{ scale: 1.03 }}
             transition={{ duration: 0.3 }}>
             <Image
-              src={item.image}
+              src={`${apiUrl}${item.image}`}
               alt={item.title}
               fill
               className='object-cover transition-transform duration-300 group-hover:scale-110'
@@ -47,9 +49,13 @@ export function PortfolioGrid({ items }) {
                 className='flex h-full items-center justify-center'
                 initial={{ scale: 0.8 }}
                 whileHover={{ scale: 1 }}>
-                <button className='rounded-full bg-white p-3 text-gray-900 hover:bg-gray-100'>
+                <a
+                  href={item.link}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='rounded-full bg-white p-3 text-gray-900 hover:bg-gray-100'>
                   <ExternalLink className='h-6 w-6' />
-                </button>
+                </a>
               </motion.div>
             </div>
           </motion.div>

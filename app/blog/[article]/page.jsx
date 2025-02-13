@@ -21,7 +21,7 @@ import { FooterBlog } from "@/components/footer-blog";
 
 function calculateReadTime(content) {
   const plainText = content.replace(/<[^>]*>/g, "");
-  const wordsPerMinute = 180; // Disesuaikan untuk kecepatan membaca bahasa Indonesia
+  const wordsPerMinute = 180;
   const wordCount = plainText.trim().split(/\s+/).length;
   return Math.ceil(wordCount / wordsPerMinute);
 }
@@ -33,11 +33,25 @@ async function getArticle(slug) {
   );
 
   if (!res.ok) {
-    throw new Error("Gagal mengambil artikel");
+    throw new Error("Failed to fetch article");
   }
 
   const data = await res.json();
   return data.data[0];
+}
+
+async function getRecentPosts() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(
+    `${apiUrl}api/articles?populate=*&sort=createdAt:desc`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch recent posts");
+  }
+
+  const data = await res.json();
+  return data.data.slice(0, 4); // Get only the 4 most recent posts
 }
 
 function getThumbnailUrl(thumbnail, format = "large") {
@@ -116,32 +130,10 @@ export async function generateMetadata({ params }) {
   };
 }
 
-const recentPosts = [
-  {
-    title: "Autodesigner 2.0 is here!",
-    image: "/placeholder.svg",
-    link: "#",
-  },
-  {
-    title: "Uizard joins Miro!",
-    image: "/placeholder.svg",
-    link: "#",
-  },
-  {
-    title: "A guide to AI wireframing",
-    image: "/placeholder.svg",
-    link: "#",
-  },
-  {
-    title: "How to quickly iterate when experiencing design bottlenecks",
-    image: "/placeholder.svg",
-    link: "#",
-  },
-];
-
 export default async function BlogPost({ params }) {
   const article = await getArticle(params.article);
   const readTimeMinutes = calculateReadTime(article.description);
+  const recentPosts = await getRecentPosts();
 
   const tagList = article.tags
     ? article.tags.split(",").map((tag) => tag.trim())
@@ -262,11 +254,14 @@ export default async function BlogPost({ params }) {
               <CardContent className='p-6'>
                 <h2 className='text-xl font-semibold mb-4'>Recent posts</h2>
                 <div className='space-y-4'>
-                  {recentPosts.map((post, index) => (
-                    <Link key={index} href={post.link} className='group block'>
+                  {recentPosts.map((post) => (
+                    <Link
+                      key={post.id}
+                      href={`/blog/${post.slug}`}
+                      className='group block'>
                       <div className='flex gap-3'>
                         <Image
-                          src={post.image}
+                          src={getThumbnailUrl(post.thumbnail, "thumbnail")}
                           alt={post.title}
                           width={80}
                           height={80}
