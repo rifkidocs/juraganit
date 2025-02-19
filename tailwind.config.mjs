@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from "tailwindcss/plugin";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
+
 export default {
   darkMode: ["class"],
   content: [
@@ -64,11 +67,38 @@ export default {
             transform: "translateX(-100%)",
           },
         },
+        scroll: {
+          to: {
+            transform: "translate(calc(-50% - 0.5rem))",
+          },
+        },
+        "marquee-vertical": {
+          from: {
+            transform: "translateY(0)",
+          },
+          to: {
+            transform: "translateY(calc(-100% - var(--gap)))",
+          },
+        },
       },
       animation: {
         marquee: "marquee 20s linear infinite",
+        scroll:
+          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography")({ addVariablesForColors: true }),
+    plugin(({ addBase, theme }) => {
+      let allColors = flattenColorPalette(theme("colors"));
+      let newVars = Object.fromEntries(
+        Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+      );
+      addBase({
+        ":root": newVars,
+      });
+    }),
+  ],
 };
