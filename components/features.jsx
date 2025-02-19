@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 export function Features() {
   const features = [
@@ -32,8 +33,9 @@ export function Features() {
     <section className='bg-black py-20'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='text-center'>
-          <div className='inline-block rounded-full bg-purple-900/50 px-4 py-1 text-sm'>
-            we're magical here!
+          <div className='inline-flex items-center gap-2 rounded-full bg-[#161022] px-4 py-2 text-sm font-medium text-white shadow-md border border-[#5A38FF]'>
+            <span className='text-lg'>✨</span>
+            JuraganIT ada disini!
           </div>
           <h2 className='mt-4 text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent sm:text-4xl'>
             UI design for disruptive product teams

@@ -115,7 +115,9 @@ export function Navigation() {
                   <div className='text-base font-semibold'>Home</div>
                 </div>
                 <div className='space-y-2'>
-                  <div className='text-base font-semibold'>Tentang Kami</div>
+                  <Link href='/tentang' className='text-base font-semibold'>
+                    Tentang Kami
+                  </Link>
                 </div>
                 <div className='space-y-2'>
                   <div className='text-base font-semibold'>Layanan</div>
