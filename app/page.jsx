@@ -5,12 +5,14 @@ import { Features } from "@/components/features";
 import { Testimonials } from "@/components/testimonials";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
+import { Spotlight } from "@/components/spotlight-new";
 
 export default function Home() {
   return (
     <div className='min-h-screen bg-black text-white'>
       <Navigation />
       <div className='w-full h-[1250px] flex absolute inset-0 overflow-hidden'>
+        <Spotlight />
         <img src='/blue_1.png' alt='Image' className='w-full' />
       </div>
 

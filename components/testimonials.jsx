@@ -196,7 +196,7 @@ export function Testimonials() {
 
       {/* Desktop view (lg+) - three columns */}
       <div className='hidden lg:flex relative h-[600px] w-full justify-center gap-8 overflow-hidden bg-black px-4'>
-        <Marquee vertical className='[--duration:40s] max-w-sm'>
+        <Marquee vertical className='[--duration:100s] max-w-sm'>
           {[...firstColumn, ...firstColumn, ...firstColumn].map(
             (review, idx) => (
               <ReviewCard
@@ -207,7 +207,7 @@ export function Testimonials() {
           )}
         </Marquee>
 
-        <Marquee vertical reverse className='[--duration:35s] max-w-sm'>
+        <Marquee vertical reverse className='[--duration:50s] max-w-sm'>
           {[...secondColumn, ...secondColumn, ...secondColumn].map(
             (review, idx) => (
               <ReviewCard
