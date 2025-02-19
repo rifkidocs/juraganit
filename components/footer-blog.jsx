@@ -31,7 +31,7 @@ export function FooterBlog() {
                   <li key={link}>
                     <Link
                       href='#'
-                      className='text-sm text-black hover:text-white transition-colors'>
+                      className='text-sm text-black hover:text-gray-600 transition-colors'>
                       {link}
                     </Link>
                   </li>
