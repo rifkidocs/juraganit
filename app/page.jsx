@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { Spotlight } from "@/components/spotlight-new";
 import Hero from "@/components/hero";
+import FeaturesGrid from "@/components/features-grid";
 
 export default function Home() {
   return (
@@ -19,18 +20,7 @@ export default function Home() {
         <div className='relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8'>
           <Hero />
 
-          {/* Product Preview */}
-          <div className='mt-16 relative mx-auto max-w-4xl'>
-            <div className='relative rounded-xl overflow-hidden border border-white/10 shadow-2xl'>
-              <Image
-                src='/placeholder.svg'
-                width={800}
-                height={600}
-                alt='Product Preview'
-                className='w-full'
-              />
-            </div>
-          </div>
+          <FeaturesGrid />
 
           {/* Trusted By */}
           <div className='mt-20'>
