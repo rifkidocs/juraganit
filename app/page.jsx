@@ -6,6 +6,7 @@ import { Navigation } from "@/components/navigation";
 import { Spotlight } from "@/components/spotlight-new";
 import Hero from "@/components/hero";
 import FeaturesGrid from "@/components/features-grid";
+import PricingCards from "@/components/pricing-cards";
 
 export default function Home() {
   return (
@@ -21,6 +22,8 @@ export default function Home() {
           <Hero />
 
           <FeaturesGrid />
+
+          <PricingCards />
 
           {/* Trusted By */}
           <div className='mt-20'>
