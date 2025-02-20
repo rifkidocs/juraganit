@@ -14,7 +14,7 @@ export function FooterBlog() {
         <div className='grid grid-cols-2 gap-8 md:grid-cols-4'>
           <div>
             <div className='flex items-center'>
-              <div className='h-8 w-8 rounded-full bg-purple-600' />
+              <div className='h-8 w-8 rounded-full bg-blue-600' />
               <span className='ml-2 text-xl font-bold text-black'>
                 JuraganIT
               </span>

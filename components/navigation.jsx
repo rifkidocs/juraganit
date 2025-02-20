@@ -22,7 +22,7 @@ export function Navigation() {
           {/* Logo */}
           <div className='flex items-center'>
             <Link href='/' className='flex items-center space-x-2'>
-              <div className='h-8 w-8 rounded-full bg-purple-600' />
+              <div className='h-8 w-8 rounded-full bg-blue-600' />
               <span className='text-xl font-bold text-white'>JuraganIT</span>
             </Link>
           </div>
@@ -87,9 +87,7 @@ export function Navigation() {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <Button className='bg-purple-600 hover:bg-purple-700'>
-              Pemesanan
-            </Button>
+            <Button className='bg-blue-600 hover:bg-blue-700'>Pemesanan</Button>
           </div>
 
           {/* Mobile menu button */}
@@ -137,7 +135,7 @@ export function Navigation() {
                 </div>
                 <div className='px-3 py-2'>
                   <Button className='w-full bg-purple-600 hover:bg-purple-700'>
-                    Pemesanan
+                    Konsultasi
                   </Button>
                 </div>
               </div>

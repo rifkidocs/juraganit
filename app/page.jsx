@@ -6,6 +6,7 @@ import { Testimonials } from "@/components/testimonials";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { Spotlight } from "@/components/spotlight-new";
+import TestComponent from "@/components/testComponent";
 
 export default function Home() {
   return (
@@ -18,29 +19,31 @@ export default function Home() {
 
       <section className='relative overflow-hidden pt-16'>
         <div className='relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8'>
-          <div className='text-center'>
-            <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl'>
-              Turn product ideas into
-              <br />
-              <span className='text-white'>concepts instantly with </span>
-              <span className='bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent'>
-                GenAI
-              </span>
-            </h1>
-            <p className='mx-auto mt-6 max-w-2xl text-lg text-gray-300'>
-              Visualize, communicate, and iterate on applications and
-              experiences in minutes. Empower your product team with AI.
-            </p>
-            <div className='mx-auto mt-10 max-w-xl'>
-              <div className='flex gap-2 sm:flex-row flex-col'>
-                <Input
-                  type='text'
-                  placeholder='Enter some text to discover...'
-                  className='bg-white/10 border-white/20'
-                />
-                <Button className='bg-purple-600 hover:bg-purple-700'>
-                  Search
-                </Button>
+          <div className='relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8'>
+            <div className='text-center'>
+              <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl'>
+                Bangun bisnis online Anda
+                <br />
+                <span className='text-white'>dengan mudah bersama </span>
+                <span className='bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent'>
+                  JuraganIT
+                </span>
+              </h1>
+              <p className='mx-auto mt-6 max-w-2xl text-lg text-gray-300'>
+                Temukan dan amankan nama domain ideal untuk bisnis Anda. Mulai
+                perjalanan digital Anda sekarang.
+              </p>
+              <div className='mx-auto mt-10 max-w-xl'>
+                <div className='flex gap-2 sm:flex-row flex-col'>
+                  <Input
+                    type='text'
+                    placeholder='Masukkan nama domain...'
+                    className='bg-white/10 border-white/20'
+                  />
+                  <Button className='bg-blue-600 hover:bg-blue-700'>
+                    Cek Domain
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
