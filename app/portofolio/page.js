@@ -1,13 +1,7 @@
 export const dynamic = "force-dynamic";
-import { Metadata } from "next";
 import PortfolioShowcase from "@/components/portfolio-showcase";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { FooterBlog } from "@/components/footer-blog";
-
-export const metadata = {
-  title: "Portfolio Showcase",
-  description: "Showcase of our latest web development projects",
-};
 
 export default async function Page() {
   async function getPortfolios() {

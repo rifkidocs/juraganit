@@ -20,16 +20,22 @@ export default function Home() {
       <section className='relative overflow-hidden pt-16'>
         <div className='relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8'>
           <Hero />
-
           <FeaturesGrid />
-
           <PricingCards />
 
           {/* Trusted By */}
-          <div className='mt-20'>
-            <p className='text-center text-2xl font-bold mb-8'>
-              Trusted by individuals and teams at the world's leading companies
-            </p>
+          <div className='py-20'>
+            <div className='text-center mb-16'>
+              <h2 className='text-4xl font-bold text-white mb-4'>
+                Dipercayai Oleh
+              </h2>
+              <p className='text-gray-300 text-lg mb-6'>
+                Kami dipercaya oleh berbagai klien untuk menghadirkan solusi
+                terbaik dengan kualitas dan inovasi tinggi.
+              </p>
+              <div className='w-20 h-1 bg-blue-500 mx-auto rounded-full'></div>
+            </div>
+
             <div
               x-data='{}'
               x-init={`
@@ -111,10 +117,10 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <Features />
+          <Testimonials />
         </div>
       </section>
-      <Features />
-      <Testimonials />
       <Footer />
     </div>
   );

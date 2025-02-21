@@ -142,21 +142,30 @@ const ReviewCard = ({ name, username, body, platform }) => {
 };
 
 export function Testimonials() {
-  // Split reviews for different views
-  const firstColumn = reviews.slice(0, 2);
-  const secondColumn = reviews.slice(2, 4);
-  const thirdColumn = reviews.slice(4);
+  // Distribute reviews more evenly based on length
+  const firstColumn = reviews.slice(0, 5); // 5 reviews
+  const secondColumn = reviews.slice(5, 9); // 4 reviews
+  const thirdColumn = reviews.slice(9); // 5 reviews
 
   return (
     <div>
-      <h2 className='text-3xl font-bold text-white text-center mb-16'>
-        What our customers say about us
-      </h2>
+      <div className='text-center mb-16'>
+        <h2 className='text-4xl font-bold text-white mb-4'>
+          Apa Kata Klien Kami
+        </h2>
+        <p className='text-gray-300 text-lg mb-6'>
+          Umpan balik dari klien kami adalah bukti kepercayaan mereka terhadap
+          layanan yang kami berikan.
+        </p>
+        <div className='w-20 h-1 bg-blue-500 mx-auto rounded-full'></div>
+      </div>
 
       {/* Mobile view (sm) - single column */}
       <div className='sm:hidden relative flex h-[600px] w-full justify-center overflow-hidden bg-black px-4'>
-        <Marquee vertical className='[--duration:40s] max-w-sm'>
-          {[...reviews, ...reviews, ...reviews].map((review, idx) => (
+        <Marquee vertical className='[--duration:80s] max-w-sm'>
+          {" "}
+          {/* Slowed down more for better readability */}
+          {[...reviews].map((review, idx) => (
             <ReviewCard key={`mobile-${review.username}-${idx}`} {...review} />
           ))}
         </Marquee>
@@ -166,13 +175,8 @@ export function Testimonials() {
 
       {/* Tablet view (sm-lg) - two columns */}
       <div className='hidden sm:flex lg:hidden relative h-[600px] w-full justify-center gap-8 overflow-hidden bg-black px-4'>
-        <Marquee vertical className='[--duration:40s] max-w-sm'>
-          {[
-            ...firstColumn,
-            ...secondColumn,
-            ...firstColumn,
-            ...secondColumn,
-          ].map((review, idx) => (
+        <Marquee vertical className='[--duration:70s] max-w-sm'>
+          {[...firstColumn, ...firstColumn].map((review, idx) => (
             <ReviewCard
               key={`tablet-1-${review.username}-${idx}`}
               {...review}
@@ -180,8 +184,8 @@ export function Testimonials() {
           ))}
         </Marquee>
 
-        <Marquee vertical reverse className='[--duration:35s] max-w-sm'>
-          {[...thirdColumn, ...firstColumn, ...thirdColumn, ...firstColumn].map(
+        <Marquee vertical reverse className='[--duration:65s] max-w-sm'>
+          {[...secondColumn, ...thirdColumn, ...secondColumn].map(
             (review, idx) => (
               <ReviewCard
                 key={`tablet-2-${review.username}-${idx}`}
@@ -196,37 +200,31 @@ export function Testimonials() {
 
       {/* Desktop view (lg+) - three columns */}
       <div className='hidden lg:flex relative h-[600px] w-full justify-center gap-8 overflow-hidden bg-black px-4'>
-        <Marquee vertical className='[--duration:100s] max-w-sm'>
-          {[...firstColumn, ...firstColumn, ...firstColumn].map(
-            (review, idx) => (
-              <ReviewCard
-                key={`desktop-1-${review.username}-${idx}`}
-                {...review}
-              />
-            )
-          )}
+        <Marquee vertical className='[--duration:75s] max-w-sm'>
+          {[...firstColumn, ...firstColumn].map((review, idx) => (
+            <ReviewCard
+              key={`desktop-1-${review.username}-${idx}`}
+              {...review}
+            />
+          ))}
         </Marquee>
 
-        <Marquee vertical reverse className='[--duration:50s] max-w-sm'>
-          {[...secondColumn, ...secondColumn, ...secondColumn].map(
-            (review, idx) => (
-              <ReviewCard
-                key={`desktop-2-${review.username}-${idx}`}
-                {...review}
-              />
-            )
-          )}
+        <Marquee vertical reverse className='[--duration:65s] max-w-sm'>
+          {[...secondColumn, ...secondColumn].map((review, idx) => (
+            <ReviewCard
+              key={`desktop-2-${review.username}-${idx}`}
+              {...review}
+            />
+          ))}
         </Marquee>
 
-        <Marquee vertical className='[--duration:45s] max-w-sm'>
-          {[...thirdColumn, ...thirdColumn, ...thirdColumn, ...thirdColumn].map(
-            (review, idx) => (
-              <ReviewCard
-                key={`desktop-3-${review.username}-${idx}`}
-                {...review}
-              />
-            )
-          )}
+        <Marquee vertical className='[--duration:70s] max-w-sm'>
+          {[...thirdColumn, ...thirdColumn].map((review, idx) => (
+            <ReviewCard
+              key={`desktop-3-${review.username}-${idx}`}
+              {...review}
+            />
+          ))}
         </Marquee>
         <div className='pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black'></div>
         <div className='pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black'></div>
