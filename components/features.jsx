@@ -1,6 +1,6 @@
 import PortfolioHome from "./portfolio-home";
 
-export async function Features() {
+export async function Features({ data }) {
   async function getPortfolios() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const res = await fetch(`${apiUrl}api/portofolios?populate=*`);
@@ -17,7 +17,7 @@ export async function Features() {
 
   return (
     <section className='w-full'>
-      <PortfolioHome portfolioData={portfoliosData} />
+      <PortfolioHome data={data} portfolioData={portfoliosData} />
     </section>
   );
 }

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default function PortfolioShowcase({ portfolioData }) {
+export default function PortfolioShowcase({ portfolioData, data }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const portfolioItems =
@@ -24,10 +24,11 @@ export default function PortfolioShowcase({ portfolioData }) {
   return (
     <div className='w-full py-20'>
       <div className='text-center mb-16'>
-        <h2 className='text-4xl font-bold text-white mb-4'>Portfolio Kami</h2>
+        <h2 className='text-4xl font-bold text-white mb-4'>
+          {data.data.PortofolioJudul}
+        </h2>
         <p className='text-gray-300 text-lg mb-6'>
-          Kami bangga dengan setiap proyek yang kami kerjakan. Setiap proyek
-          adalah bukti komitmen kami terhadap kualitas dan inovasi.
+          {data.data.PortofolioSubJudul}
         </p>
         <div className='w-20 h-1 bg-blue-500 mx-auto rounded-full'></div>
       </div>
