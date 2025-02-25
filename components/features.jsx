@@ -3,7 +3,7 @@ import PortfolioHome from "./portfolio-home";
 export async function Features({ data }) {
   async function getPortfolios() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const res = await fetch(`${apiUrl}api/portofolios?populate=*`);
+    const res = await fetch(`${apiUrl}/api/portofolios?populate=*`);
 
     if (!res.ok) {
       throw new Error("Failed to fetch portfolios");

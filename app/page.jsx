@@ -25,6 +25,7 @@ async function getData() {
 
 export default async function Home() {
   const data = await getData();
+  console.log(data);
 
   return (
     <div className='min-h-screen bg-black text-white'>
