@@ -91,6 +91,7 @@ export default {
   },
   plugins: [
     require("@tailwindcss/typography")({ addVariablesForColors: true }),
+    require("tailwindcss-animate"),
     plugin(({ addBase, theme }) => {
       let allColors = flattenColorPalette(theme("colors"));
       let newVars = Object.fromEntries(
