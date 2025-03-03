@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 export default function Share({ title }) {
   const pathname = usePathname();
-  const domain = process.env.NEXT_PUBLIC_SITE_URL || "https://juraganit.com";
+  const domain = process.env.NEXT_PUBLIC_SITE_URL;
   const url = `${domain}${pathname}`;
   const shareText = title || "";
 
