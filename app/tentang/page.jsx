@@ -27,7 +27,7 @@ function calculateReadTime(content) {
 
 async function getAboutContent() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}api/tentang-kami`);
+  const res = await fetch(`${apiUrl}/api/tentang-kami`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch about content");
@@ -40,7 +40,7 @@ async function getAboutContent() {
 async function getRecentPosts() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(
-    `${apiUrl}api/articles?populate=*&sort=createdAt:desc`
+    `${apiUrl}/api/articles?populate=*&sort=createdAt:desc`
   );
 
   if (!res.ok) {

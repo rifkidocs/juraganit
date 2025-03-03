@@ -29,7 +29,7 @@ function calculateReadTime(content) {
 async function getArticle(slug) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(
-    `${apiUrl}api/articles?filters[slug][$eq]=${slug}&populate=*`
+    `${apiUrl}/api/articles?filters[slug][$eq]=${slug}&populate=*`
   );
 
   if (!res.ok) {
@@ -43,7 +43,7 @@ async function getArticle(slug) {
 async function getRecentPosts() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(
-    `${apiUrl}api/articles?populate=*&sort=createdAt:desc`
+    `${apiUrl}/api/articles?populate=*&sort=createdAt:desc`
   );
 
   if (!res.ok) {
@@ -132,6 +132,8 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPost({ params }) {
   const article = await getArticle(params.article);
+  console.log("ini adalah slug" + article);
+
   const readTimeMinutes = calculateReadTime(article.description);
   const recentPosts = await getRecentPosts();
 
