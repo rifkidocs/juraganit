@@ -18,6 +18,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { FooterBlog } from "@/components/footer-blog";
+import Share from "@/components/share";
 
 function calculateReadTime(content) {
   const plainText = content.replace(/<[^>]*>/g, "");
@@ -132,7 +133,6 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPost({ params }) {
   const article = await getArticle(params.article);
-  console.log("ini adalah slug" + article);
 
   const readTimeMinutes = calculateReadTime(article.description);
   const recentPosts = await getRecentPosts();
@@ -231,25 +231,7 @@ export default async function BlogPost({ params }) {
           {/* Sidebar */}
           <aside className='space-y-8'>
             {/* Share Section */}
-            <Card>
-              <CardContent className='p-6'>
-                <h2 className='text-xl font-semibold mb-4'>Bagikan</h2>
-                <div className='flex flex-wrap gap-2'>
-                  <Button variant='outline' size='icon'>
-                    <Twitter className='w-4 h-4' />
-                  </Button>
-                  <Button variant='outline' size='icon'>
-                    <Linkedin className='w-4 h-4' />
-                  </Button>
-                  <Button variant='outline' size='icon'>
-                    <Facebook className='w-4 h-4' />
-                  </Button>
-                  <Button variant='outline' size='icon'>
-                    <Mail className='w-4 h-4' />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <Share />
 
             {/* Recent Posts */}
             <Card>
