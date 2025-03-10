@@ -7,8 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default async function CategoryPage({ params }) {
-  const page = 1;
+export default async function CategoryPaginationPage({ params }) {
+  const page = parseInt(params.page);
   const postsPerPage = 6;
 
   const response = await fetch(
