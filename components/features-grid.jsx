@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function FeaturesGrid({ data }) {
   return (
-    <div className='w-full'>
+    <div className='w-full' id='layanan'>
       <div className='container mx-auto px-4'>
         <div className='text-center mb-16'>
           <h2 className='text-4xl font-bold text-white mb-4'>Layanan Kami</h2>
