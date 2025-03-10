@@ -1,13 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { footerLinks } from "@/config/footer";
 
 export function FooterBlog() {
-  const footerLinks = {
-    "Informasi Umum": ["Karir", "FAQ", "Tentang Kami"],
-    "Layanan Pengguna": ["Kontak", "Pemesanan", "Cek Dokumen"],
-    "Kebijakan dan Blog": ["Blog", "Syarat Ketentuan", "Kebijakan Privasi"],
-  };
-
   return (
     <footer className='bg-white border-t border-black/10 w-full'>
       <div className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
@@ -30,9 +25,9 @@ export function FooterBlog() {
                 {links.map((link) => (
                   <li key={link}>
                     <Link
-                      href='#'
+                      href={link.href}
                       className='text-sm text-black hover:text-gray-600 transition-colors'>
-                      {link}
+                      {link.text}
                     </Link>
                   </li>
                 ))}
