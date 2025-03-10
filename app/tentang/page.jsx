@@ -137,7 +137,9 @@ export default async function AboutPage() {
             {/* Recent Posts */}
             <Card>
               <CardContent className='p-6'>
-                <h2 className='text-xl font-semibold mb-4'>Recent posts</h2>
+                <h2 className='text-xl font-semibold mb-4'>
+                  Postingan Terbaru
+                </h2>
                 <div className='space-y-4'>
                   {recentPosts.map((post) => (
                     <Link

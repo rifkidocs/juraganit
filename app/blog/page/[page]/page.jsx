@@ -6,7 +6,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function BlogListing() {
+export default async function BlogListing({ params }) {
+  const page = parseInt(params.page) || 1;
+  const postsPerPage = 6;
+
   // Fetch categories from API
   const categoriesResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
@@ -31,13 +34,14 @@ export default async function BlogListing() {
     return colors[index];
   };
 
-  // Fetch posts
+  // Fetch posts with pagination
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*&sort=createdAt:desc&pagination[page]=${page}&pagination[pageSize]=${postsPerPage}`,
     {}
   );
   const data = await response.json();
   const posts = data.data;
+  const pagination = data.meta.pagination;
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -68,7 +72,7 @@ export default async function BlogListing() {
     }
 
     // Fallback to first image in description if no thumbnail
-    const imgMatch = post.description.match(/<img[^>]+src="([^">]+)"/);
+    const imgMatch = post.description.match(/<img[^>]+src="([^"\>]+)"/i);
     if (imgMatch && imgMatch[1]) {
       return imgMatch[1];
     }
@@ -89,9 +93,10 @@ export default async function BlogListing() {
             </span>
           </h1>
           <p className='text-lg text-muted-foreground'>
-            Welcome to JuraganIT blog, where you can learn about web
-            development, programming, and technology. Whether you're a beginner
-            or an experienced developer, there's something here for everyone.
+            Selamat datang di blog JuraganIT, tempat di mana Anda bisa belajar
+            tentang pengembangan web, pemrograman, dan teknologi. Baik Anda
+            seorang pemula maupun pengembang berpengalaman, ada sesuatu di sini
+            untuk semua orang.
           </p>
         </div>
 
@@ -144,14 +149,35 @@ export default async function BlogListing() {
         </div>
 
         <div className='flex justify-center gap-2 mt-6 mb-16'>
-          {[1].map((page) => (
-            <Badge
-              key={page}
-              variant='default'
-              className='w-8 h-8 flex items-center justify-center cursor-pointer'>
-              {page}
-            </Badge>
-          ))}
+          {page > 1 && (
+            <Link href={`/blog/page/${page - 1}`}>
+              <Badge
+                variant='secondary'
+                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                Previous
+              </Badge>
+            </Link>
+          )}
+          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
+            (pageNumber) => (
+              <Link key={pageNumber} href={`/blog/page/${pageNumber}`}>
+                <Badge
+                  variant={pageNumber === page ? "default" : "secondary"}
+                  className='w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                  {pageNumber}
+                </Badge>
+              </Link>
+            )
+          )}
+          {page < pagination.pageCount && (
+            <Link href={`/blog/page/${page + 1}`}>
+              <Badge
+                variant='secondary'
+                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                Next
+              </Badge>
+            </Link>
+          )}
         </div>
       </div>
       <FooterBlog />

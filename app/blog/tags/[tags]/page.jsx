@@ -5,17 +5,22 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function TagPage({ params }) {
-  const tag = params.tags;
+  const tag = decodeURIComponent(params.tags.replace(/-/g, " "));
   const articlesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*&sort=createdAt:desc&filters[tags][$containsi]=${tag}`
+    `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/api/articles?populate=*&sort=createdAt:desc&filters[tags][$containsi]=${encodeURIComponent(
+      tag
+    )}`
   );
   const articlesData = await articlesResponse.json();
   const articles = articlesData.data;
 
   if (!articles || articles.length === 0) {
-    return <div>No articles found for this tag</div>;
+    notFound();
   }
 
   const getColorForCategory = (categoryName) => {

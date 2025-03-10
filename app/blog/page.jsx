@@ -31,16 +31,21 @@ export default async function BlogListing() {
     return colors[index];
   };
 
-  // Fetch posts
+  // Get current page from URL or default to 1
+  const page = 1;
+  const postsPerPage = 6;
+
+  // Fetch posts with pagination and sorting
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*&sort=createdAt:desc&pagination[page]=${page}&pagination[pageSize]=${postsPerPage}`,
     {}
   );
   const data = await response.json();
   const posts = data.data;
+  const pagination = data.meta.pagination;
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("id-ID", {
       day: "numeric",
       month: "long",
       year: "numeric",
@@ -56,24 +61,19 @@ export default async function BlogListing() {
   };
 
   const getImageUrl = (post) => {
-    // Check if post has thumbnail
     if (post.thumbnail) {
-      // Use the medium format if available, otherwise fall back to the original URL
       const imageUrl =
         post.thumbnail.formats?.medium?.url || post.thumbnail.url;
-      // Prepend API URL if the image URL is relative
       return imageUrl.startsWith("http")
         ? imageUrl
         : `${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`;
     }
 
-    // Fallback to first image in description if no thumbnail
-    const imgMatch = post.description.match(/<img[^>]+src="([^">]+)"/);
+    const imgMatch = post.description.match(/<img[^>]+src="([^"\>]+)"/i);
     if (imgMatch && imgMatch[1]) {
       return imgMatch[1];
     }
 
-    // Default placeholder if no images found
     return "/placeholder.svg";
   };
 
@@ -83,28 +83,33 @@ export default async function BlogListing() {
       <div className='max-w-4xl mx-auto'>
         <div className='space-y-4 mb-12'>
           <h1 className='text-4xl font-bold flex items-center gap-2'>
-            JuraganIT Blog
+            Blog JuraganIT
             <span role='img' aria-label='book'>
               📚
             </span>
           </h1>
           <p className='text-lg text-muted-foreground'>
-            Welcome to JuraganIT blog, where you can learn about web
-            development, programming, and technology. Whether you're a beginner
-            or an experienced developer, there's something here for everyone.
+            Selamat datang di blog JuraganIT, tempat di mana Anda bisa belajar
+            tentang pengembangan web, pemrograman, dan teknologi. Baik Anda
+            seorang pemula maupun pengembang berpengalaman, ada sesuatu di sini
+            untuk semua orang.
           </p>
         </div>
 
         <div className='flex flex-wrap gap-2 mb-8'>
           {categories.map((category) => (
-            <Badge
+            <Link
               key={category.id}
-              variant='secondary'
-              className={`${getColorForCategory(
-                category.name
-              )} text-white hover:${getColorForCategory(category.name)}`}>
-              {category.name}
-            </Badge>
+              href={`/blog/category/${category.slug}`}
+              className='group'>
+              <Badge
+                variant='secondary'
+                className={`${getColorForCategory(
+                  category.name
+                )} text-white hover:${getColorForCategory(category.name)}`}>
+                {category.name}
+              </Badge>
+            </Link>
           ))}
         </div>
 
@@ -130,7 +135,7 @@ export default async function BlogListing() {
                       <span>{formatDate(post.createdAt)}</span>
                       <span>•</span>
                       <span>
-                        {Math.ceil(post.description.length / 1000)} min read
+                        {Math.ceil(post.description.length / 1000)} menit baca
                       </span>
                     </div>
                     <p className='text-muted-foreground text-sm'>
@@ -144,14 +149,35 @@ export default async function BlogListing() {
         </div>
 
         <div className='flex justify-center gap-2 mt-6 mb-16'>
-          {[1].map((page) => (
-            <Badge
-              key={page}
-              variant='default'
-              className='w-8 h-8 flex items-center justify-center cursor-pointer'>
-              {page}
-            </Badge>
-          ))}
+          {page > 1 && (
+            <Link href={`/blog/page/${page - 1}`}>
+              <Badge
+                variant='secondary'
+                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                Previous
+              </Badge>
+            </Link>
+          )}
+          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
+            (pageNumber) => (
+              <Link key={pageNumber} href={`/blog/page/${pageNumber}`}>
+                <Badge
+                  variant={pageNumber === page ? "default" : "secondary"}
+                  className='w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                  {pageNumber}
+                </Badge>
+              </Link>
+            )
+          )}
+          {page < pagination.pageCount && (
+            <Link href={`/blog/page/${page + 1}`}>
+              <Badge
+                variant='secondary'
+                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                Next
+              </Badge>
+            </Link>
+          )}
         </div>
       </div>
       <FooterBlog />

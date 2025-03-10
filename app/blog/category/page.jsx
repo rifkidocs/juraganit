@@ -5,15 +5,32 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default async function CategoryListing() {
-  // Fetch categories with their articles
+  // Fetch categories first
   const categoriesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/categories?populate=*`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
     {}
   );
   const categoriesData = await categoriesResponse.json();
-  const categories = categoriesData.data;
+  const categoriesList = categoriesData.data;
+
+  // For each category, fetch limited articles (3 per category)
+  const categories = await Promise.all(
+    categoriesList.map(async (category) => {
+      const articlesResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/articles?filters[category][slug][$eq]=${category.slug}&pagination[pageSize]=3&sort=createdAt:desc&populate=thumbnail`,
+        {}
+      );
+      const articlesData = await articlesResponse.json();
+
+      return {
+        ...category,
+        articles: articlesData.data || [],
+      };
+    })
+  );
 
   // Generate a consistent color for each category
   const getColorForCategory = (categoryName) => {
@@ -140,6 +157,28 @@ export default async function CategoryListing() {
                     </Card>
                   </Link>
                 ))}
+              </div>
+
+              <div className='flex justify-center mt-6'>
+                <Link
+                  href={`/blog/category/${category.slug}`}
+                  className='inline-flex items-center gap-2 text-blue-500 hover:text-blue-600 font-medium transition-colors'>
+                  Lihat Semua Artikel
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='16'
+                    height='16'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    className='lucide lucide-arrow-right'>
+                    <path d='M5 12h14'></path>
+                    <path d='m12 5 7 7-7 7'></path>
+                  </svg>
+                </Link>
               </div>
             </div>
           ))}

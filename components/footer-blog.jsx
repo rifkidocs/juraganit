@@ -37,7 +37,7 @@ export function FooterBlog() {
         </div>
         <div className='mt-12 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between'>
           <p className='md:text-sm text-xs text-black mx-auto text-center'>
-            © 2024 PT Juragan Karya Digital Teknologi. All rights reserved.
+            © {new Date().getFullYear()} PT Juragan Karya Digital Teknologi. All rights reserved.
           </p>
         </div>
       </div>
