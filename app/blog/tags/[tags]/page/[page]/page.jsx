@@ -7,15 +7,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default async function TagPage({ params }) {
+export default async function TagPagePaginated({ params }) {
   const tag = decodeURIComponent(params.tags.replace(/-/g, " "));
+  const page = parseInt(params.page) || 1;
   const postsPerPage = 6;
+
   const articlesResponse = await fetch(
     `${
       process.env.NEXT_PUBLIC_API_URL
     }/api/articles?populate=*&sort=createdAt:desc&filters[tags][$containsi]=${encodeURIComponent(
       tag
-    )}&pagination[page]=1&pagination[pageSize]=${postsPerPage}`
+    )}&pagination[page]=${page}&pagination[pageSize]=${postsPerPage}`
   );
   const articlesData = await articlesResponse.json();
   const articles = articlesData.data;
@@ -57,31 +59,25 @@ export default async function TagPage({ params }) {
   };
 
   const getImageUrl = (article) => {
-    // Check if article has thumbnail
     if (article.thumbnail) {
-      // Try to get medium format first, then fall back to original
       const imageUrl =
         article.thumbnail.formats?.medium?.url || article.thumbnail.url;
 
-      // If URL is relative, prepend API URL
       if (imageUrl.startsWith("/")) {
         return `${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`;
       }
       return imageUrl;
     }
 
-    // If no thumbnail, try to get first image from description
-    const imgMatch = article.description.match(/<img[^>]+src="([^">]+)"/);
+    const imgMatch = article.description.match(/<img[^>]+src="([^"\>]+)"/i);
     if (imgMatch && imgMatch[1]) {
       const imgUrl = imgMatch[1];
-      // If URL is relative, prepend API URL
       if (imgUrl.startsWith("/")) {
         return `${process.env.NEXT_PUBLIC_API_URL}${imgUrl}`;
       }
       return imgUrl;
     }
 
-    // Default placeholder if no image found
     return "/placeholder.svg";
   };
 
@@ -141,6 +137,40 @@ export default async function TagPage({ params }) {
               </Card>
             </Link>
           ))}
+        </div>
+
+        <div className='flex justify-center gap-2 mt-6'>
+          {page > 1 && (
+            <Link href={`/blog/tags/${params.tags}/page/${page - 1}`}>
+              <Badge
+                variant='secondary'
+                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                Previous
+              </Badge>
+            </Link>
+          )}
+          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
+            (pageNumber) => (
+              <Link
+                key={pageNumber}
+                href={`/blog/tags/${params.tags}/page/${pageNumber}`}>
+                <Badge
+                  variant={pageNumber === page ? "default" : "secondary"}
+                  className='w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                  {pageNumber}
+                </Badge>
+              </Link>
+            )
+          )}
+          {page < pagination.pageCount && (
+            <Link href={`/blog/tags/${params.tags}/page/${page + 1}`}>
+              <Badge
+                variant='secondary'
+                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
+                Next
+              </Badge>
+            </Link>
+          )}
         </div>
       </div>
       <FooterBlog />
