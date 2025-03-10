@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function CategoryPage({ params }) {
   const categoryResponse = await fetch(
@@ -14,7 +15,7 @@ export default async function CategoryPage({ params }) {
   const category = categoryData.data[0];
 
   if (!category) {
-    return <div>Category not found</div>;
+    return notFound();
   }
 
   const getColorForCategory = (categoryName) => {
