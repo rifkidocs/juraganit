@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { FooterBlog } from "@/components/footer-blog";
 import Share from "@/components/share";
+import { notFound } from "next/navigation";
 
 function calculateReadTime(content) {
   const plainText = content.replace(/<[^>]*>/g, "");
@@ -34,7 +35,7 @@ async function getArticle(slug) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch article");
+    return notFound;
   }
 
   const data = await res.json();
