@@ -21,7 +21,7 @@ export default function NotFound() {
             variant='outline'
             asChild
             className='border-blue-600 text-blue-600 hover:bg-blue-50'>
-            <Link href='/kontak'>Hubungi Kami</Link>
+            <Link href='/kontak-kami'>Hubungi Kami</Link>
           </Button>
         </div>
       </div>
