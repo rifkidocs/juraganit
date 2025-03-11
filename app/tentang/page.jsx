@@ -1,19 +1,7 @@
 export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Calendar,
-  Clock,
-  Share2,
-  Mail,
-  Twitter,
-  Linkedin,
-  Facebook,
-  User,
-  Tag,
-  Folder,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Calendar, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
