@@ -3,11 +3,25 @@ import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function BlogListing() {
-  // Fetch categories from API
+  const getColorForCategory = (categoryName) => {
+    const colors = [
+      ["bg-blue-500", "hover:bg-blue-600"],
+      ["bg-orange-500", "hover:bg-orange-600"],
+      ["bg-purple-500", "hover:bg-purple-600"],
+      ["bg-green-500", "hover:bg-green-600"],
+      ["bg-yellow-500", "hover:bg-yellow-600"],
+      ["bg-red-500", "hover:bg-red-600"],
+      ["bg-indigo-500", "hover:bg-indigo-600"],
+      ["bg-pink-500", "hover:bg-pink-600"],
+    ];
+    const index = categoryName.length % colors.length;
+    return colors[index];
+  };
   const categoriesResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
     {}
@@ -15,27 +29,9 @@ export default async function BlogListing() {
   const categoriesData = await categoriesResponse.json();
   const categories = categoriesData.data;
 
-  // Generate a consistent color for each category
-  const getColorForCategory = (categoryName) => {
-    const colors = [
-      "bg-blue-500",
-      "bg-orange-500",
-      "bg-purple-500",
-      "bg-green-500",
-      "bg-yellow-500",
-      "bg-red-500",
-      "bg-indigo-500",
-      "bg-pink-500",
-    ];
-    const index = categoryName.length % colors.length;
-    return colors[index];
-  };
-
-  // Get current page from URL or default to 1
   const page = 1;
   const postsPerPage = 6;
 
-  // Fetch posts with pagination and sorting
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/articles?populate=*&sort=createdAt:desc&pagination[page]=${page}&pagination[pageSize]=${postsPerPage}`,
     {}
@@ -104,9 +100,7 @@ export default async function BlogListing() {
               className='group'>
               <Badge
                 variant='secondary'
-                className={`${getColorForCategory(
-                  category.name
-                )} text-white hover:${getColorForCategory(category.name)}`}>
+                className={`${getColorForCategory(category.name)[0]} ${getColorForCategory(category.name)[1]} text-white`}>
                 {category.name}
               </Badge>
             </Link>
@@ -148,37 +142,35 @@ export default async function BlogListing() {
           ))}
         </div>
 
-        <div className='flex justify-center gap-2 mt-6 mb-16'>
-          {page > 1 && (
-            <Link href={`/blog/page/${page - 1}`}>
-              <Badge
-                variant='secondary'
-                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
-                Previous
-              </Badge>
-            </Link>
-          )}
-          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
-            (pageNumber) => (
-              <Link key={pageNumber} href={`/blog/page/${pageNumber}`}>
-                <Badge
-                  variant={pageNumber === page ? "default" : "secondary"}
-                  className='w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
-                  {pageNumber}
-                </Badge>
-              </Link>
-            )
-          )}
-          {page < pagination.pageCount && (
-            <Link href={`/blog/page/${page + 1}`}>
-              <Badge
-                variant='secondary'
-                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
-                Next
-              </Badge>
-            </Link>
-          )}
-        </div>
+        {pagination.pageCount > 1 && (
+          <div className='mt-8 mb-16'>
+            <Pagination>
+              <PaginationContent>
+                {page > 1 && (
+                  <PaginationItem>
+                    <PaginationPrevious href={`/blog/page/${page - 1}`} />
+                  </PaginationItem>
+                )}
+                {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
+                  (pageNumber) => (
+                    <PaginationItem key={pageNumber}>
+                      <PaginationLink
+                        href={`/blog/page/${pageNumber}`}
+                        isActive={pageNumber === page}>
+                        {pageNumber}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                )}
+                {page < pagination.pageCount && (
+                  <PaginationItem>
+                    <PaginationNext href={`/blog/page/${page + 1}`} />
+                  </PaginationItem>
+                )}
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </div>
       <FooterBlog />
     </div>

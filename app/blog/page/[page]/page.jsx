@@ -3,6 +3,14 @@ import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -148,39 +156,36 @@ export default async function BlogListing({ params }) {
           ))}
         </div>
 
-        <div className='flex justify-center gap-2 mt-6 mb-16'>
-          {page > 1 && (
-            <Link href={`/blog/page/${page - 1}`}>
-              <Badge
-                variant='secondary'
-                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
-                Previous
-              </Badge>
-            </Link>
-          )}
-          {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
-            (pageNumber) => (
-              <Link key={pageNumber} href={`/blog/page/${pageNumber}`}>
-                <Badge
-                  variant={pageNumber === page ? "default" : "secondary"}
-                  className='w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
-                  {pageNumber}
-                </Badge>
-              </Link>
-            )
-          )}
-          {page < pagination.pageCount && (
-            <Link href={`/blog/page/${page + 1}`}>
-              <Badge
-                variant='secondary'
-                className='px-4 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-200'>
-                Next
-              </Badge>
-            </Link>
-          )}
+        <div className='mt-8 mb-16'>
+          <Pagination>
+            <PaginationContent>
+              {page > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious href={`/blog/page/${page - 1}`} />
+                </PaginationItem>
+              )}
+              {Array.from(
+                { length: pagination.pageCount },
+                (_, i) => i + 1
+              ).map((pageNumber) => (
+                <PaginationItem key={pageNumber}>
+                  <PaginationLink
+                    href={`/blog/page/${pageNumber}`}
+                    isActive={pageNumber === page}>
+                    {pageNumber}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              {page < pagination.pageCount && (
+                <PaginationItem>
+                  <PaginationNext href={`/blog/page/${page + 1}`} />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
         </div>
+        <FooterBlog />
       </div>
-      <FooterBlog />
     </div>
   );
 }

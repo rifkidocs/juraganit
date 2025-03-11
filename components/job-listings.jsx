@@ -79,6 +79,14 @@ export default function JobListings({ jobsData }) {
                     <p className='text-sm font-medium text-green-600'>
                       {job.gaji}
                     </p>
+                    <p className='text-xs text-muted-foreground'>
+                      Dipublikasikan:{" "}
+                      {new Date(job.publishedAt).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </p>
                   </div>
 
                   <Dialog>
@@ -98,6 +106,30 @@ export default function JobListings({ jobsData }) {
                           <p className='text-green-600 font-medium'>
                             {job.gaji}
                           </p>
+                          <div className='text-sm text-muted-foreground space-y-1'>
+                            <p>
+                              Dipublikasikan:{" "}
+                              {new Date(job.publishedAt).toLocaleDateString(
+                                "id-ID",
+                                {
+                                  day: "numeric",
+                                  month: "long",
+                                  year: "numeric",
+                                }
+                              )}
+                            </p>
+                            <p>
+                              Terakhir diperbarui:{" "}
+                              {new Date(job.updatedAt).toLocaleDateString(
+                                "id-ID",
+                                {
+                                  day: "numeric",
+                                  month: "long",
+                                  year: "numeric",
+                                }
+                              )}
+                            </p>
+                          </div>
                         </div>
                         <div
                           className='prose prose-sm max-w-none'
@@ -126,7 +158,7 @@ export default function JobListings({ jobsData }) {
                 </PaginationItem>
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (page) => (
-                    <PaginationItem key={page}>
+                    <PaginationItem key={`page-${page}`}>
                       <PaginationLink
                         onClick={() => handlePageChange(page)}
                         isActive={currentPage === page}
