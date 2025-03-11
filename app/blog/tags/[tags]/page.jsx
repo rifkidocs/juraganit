@@ -3,6 +3,14 @@ import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -142,6 +150,45 @@ export default async function TagPage({ params }) {
             </Link>
           ))}
         </div>
+
+        {pagination.pageCount > 1 && (
+          <div className='mt-8 flex justify-center'>
+            <Pagination>
+              <PaginationContent>
+                {pagination.page > 1 && (
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href={`/blog/tags/${params.tags}/page/${
+                        pagination.page - 1
+                      }`}
+                    />
+                  </PaginationItem>
+                )}
+                {Array.from(
+                  { length: pagination.pageCount },
+                  (_, i) => i + 1
+                ).map((pageNum) => (
+                  <PaginationItem key={pageNum}>
+                    <PaginationLink
+                      href={`/blog/tags/${params.tags}/page/${pageNum}`}
+                      isActive={pageNum === pagination.page}>
+                      {pageNum}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                {pagination.page < pagination.pageCount && (
+                  <PaginationItem>
+                    <PaginationNext
+                      href={`/blog/tags/${params.tags}/page/${
+                        pagination.page + 1
+                      }`}
+                    />
+                  </PaginationItem>
+                )}
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </div>
       <FooterBlog />
     </div>
