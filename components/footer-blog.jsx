@@ -15,7 +15,7 @@ export function FooterBlog() {
               </span>
             </div>
             <p className='mt-4 text-sm text-black'>
-              Create product ideas that set you up for success
+              Buat ide produk digital anda bersama kami.
             </p>
           </div>
           {Object.entries(footerLinks).map(([category, links]) => (
@@ -37,7 +37,8 @@ export function FooterBlog() {
         </div>
         <div className='mt-12 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between'>
           <p className='md:text-sm text-xs text-black mx-auto text-center'>
-            © {new Date().getFullYear()} PT Juragan Karya Digital Teknologi. All rights reserved.
+            © {new Date().getFullYear()} PT Juragan Karya Digital Teknologi. All
+            rights reserved.
           </p>
         </div>
       </div>

@@ -14,7 +14,7 @@ export function Footer() {
               </span>
             </div>
             <p className='mt-4 text-sm text-gray-400'>
-              Create product ideas that set you up for success
+              Buat ide produk digital anda bersama kami.
             </p>
           </div>
           {Object.entries(footerLinks).map(([category, links]) => (
