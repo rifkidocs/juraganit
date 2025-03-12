@@ -3,16 +3,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-export function Navigation() {
+export function Navigation({ dataPesan }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -87,7 +85,16 @@ export function Navigation() {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <Button className='bg-blue-600 hover:bg-blue-700'>Pemesanan</Button>
+            <Button
+              className='bg-blue-600 hover:bg-blue-700'
+              onClick={() => {
+                const phoneNumber = dataPesan?.nomor;
+                if (phoneNumber) {
+                  window.open(`https://wa.me/${phoneNumber}`, "_blank");
+                }
+              }}>
+              Pemesanan
+            </Button>
           </div>
 
           {/* Mobile menu button */}
@@ -134,7 +141,14 @@ export function Navigation() {
                   <div className='text-base font-semibold'>Kontak Kami</div>
                 </div>
                 <div className='px-3 py-2'>
-                  <Button className='w-full bg-purple-600 hover:bg-purple-700'>
+                  <Button
+                    className='w-full bg-purple-600 hover:bg-purple-700'
+                    onClick={() => {
+                      window.open(
+                        `https://wa.me/${dataPesan?.nomor}`,
+                        "_blank"
+                      );
+                    }}>
                     Konsultasi
                   </Button>
                 </div>

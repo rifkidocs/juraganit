@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 
-export default function PricingCards({ data }) {
+export default function PricingCards({ data, dataPesan }) {
   const plans = [
     {
       ...data.PricingItem1,
@@ -94,6 +95,22 @@ export default function PricingCards({ data }) {
               </CardContent>
               <CardFooter className='flex flex-col gap-4 p-6 pt-0'>
                 <Button
+                  onClick={() => {
+                    const phoneNumber = dataPesan?.nomor;
+                    const message = plan.isPopular
+                      ? dataPesan?.text_bisnis
+                      : plan.price === plans[0].price
+                      ? dataPesan?.text_umkm
+                      : dataPesan?.text_corporate;
+                    if (phoneNumber && message) {
+                      window.open(
+                        `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                          message
+                        )}`,
+                        "_blank"
+                      );
+                    }
+                  }}
                   className={`w-full text-white transition-all duration-300 ${
                     plan.isPopular
                       ? "bg-orange-500 hover:bg-orange-600"

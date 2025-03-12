@@ -23,12 +23,25 @@ async function getData() {
   return res.json();
 }
 
+async function getPesan() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pemesanan`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
 export default async function Home() {
   const data = await getData();
+  const dataPesan = await getPesan();
 
   return (
     <div className='min-h-screen bg-black text-white'>
-      <Navigation />
+      <Navigation dataPesan={dataPesan.data} />
       <div className='w-full h-[1250px] flex absolute inset-0 overflow-hidden'>
         <Spotlight />
         <img src='/blue_1.png' alt='Image' className='w-full' />
@@ -38,7 +51,7 @@ export default async function Home() {
         <div className='relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8'>
           <Hero />
           <FeaturesGrid data={data.data} />
-          <PricingCards data={data.data} />
+          <PricingCards data={data.data} dataPesan={dataPesan.data} />
 
           {/* Trusted By */}
           <div className='py-20'>
