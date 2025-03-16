@@ -6,6 +6,45 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import Share from "@/components/share";
+import { Metadata } from "next";
+
+export async function generateMetadata() {
+  const privacyContent = await getPrivacyContent();
+  return {
+    title: privacyContent.judul,
+    description: "Kebijakan Privasi JuraganIT",
+    openGraph: {
+      title: privacyContent.judul,
+      description: "Kebijakan Privasi JuraganIT",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/kebijakan-privasi`,
+      siteName: "JuraganIT",
+      images: [
+        {
+          url: `${
+            process.env.NEXT_PUBLIC_SITE_URL
+          }/api/og?title=${encodeURIComponent(
+            privacyContent.judul
+          )}&description=${encodeURIComponent("Kebijakan Privasi JuraganIT")}`,
+          width: 1200,
+          height: 630,
+          alt: privacyContent.judul,
+        },
+      ],
+      locale: "id_ID",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: privacyContent.judul,
+      description: "Kebijakan Privasi JuraganIT",
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          privacyContent.judul
+        )}&description=${encodeURIComponent("Kebijakan Privasi JuraganIT")}`,
+      ],
+    },
+  };
+}
 
 function calculateReadTime(content) {
   const plainText = content.replace(/<[^>]*>/g, "");

@@ -1,8 +1,41 @@
+import { Metadata } from "next";
+
+export const metadata = {
+  title: "Kontak Kami - JuraganIT",
+  description:
+    "Hubungi kami untuk informasi lebih lanjut tentang layanan digital JuraganIT. Kami siap membantu mengembangkan solusi digital untuk bisnis Anda.",
+  openGraph: {
+    title: "Kontak Kami - JuraganIT",
+    description:
+      "Hubungi kami untuk informasi lebih lanjut tentang layanan digital JuraganIT. Kami siap membantu mengembangkan solusi digital untuk bisnis Anda.",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/kontak-kami`,
+    siteName: "JuraganIT",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Kontak Kami&description=Hubungi kami untuk informasi lebih lanjut`,
+        width: 1200,
+        height: 630,
+        alt: "Kontak Kami - JuraganIT",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kontak Kami - JuraganIT",
+    description:
+      "Hubungi kami untuk informasi lebih lanjut tentang layanan digital JuraganIT",
+    images: [
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Kontak Kami&description=Hubungi kami untuk informasi lebih lanjut`,
+    ],
+    creator: "@juraganit",
+  },
+};
+
 export const dynamic = "force-dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 
