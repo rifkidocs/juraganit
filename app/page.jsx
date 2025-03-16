@@ -44,7 +44,13 @@ export default async function Home() {
       <Navigation dataPesan={dataPesan.data} />
       <div className='w-full h-[1250px] flex absolute inset-0 overflow-hidden'>
         <Spotlight />
-        <img src='/blue_1.png' alt='Image' className='w-full' />
+        <Image
+          width={10000}
+          height={1000}
+          src='/blue_1.png'
+          alt='Image'
+          className='w-full'
+        />
       </div>
 
       <section className='relative overflow-hidden pt-16'>
