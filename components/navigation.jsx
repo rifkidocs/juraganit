@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 export function Navigation({ dataPesan }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +21,7 @@ export function Navigation({ dataPesan }) {
           {/* Logo */}
           <div className='flex items-center'>
             <Link href='/' className='flex items-center space-x-2'>
-              <div className='h-8 w-8 rounded-full bg-blue-600' />
+              <Image src='/juragan.png' alt='alt' width={40} height={40} />
               <span className='text-xl font-bold text-white'>JuraganIT</span>
             </Link>
           </div>
