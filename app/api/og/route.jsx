@@ -2,7 +2,11 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export async function GET() {
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const title = searchParams.get("title") || "JuraganIT";
+  const description =
+    searchParams.get("description") || "Solusi Digital untuk Bisnis Anda";
   return new ImageResponse(
     (
       <div
@@ -57,7 +61,7 @@ export async function GET() {
               margin: 0,
               marginBottom: "1rem",
             }}>
-            JuraganIT
+            {title}
           </h1>
           <p
             style={{
@@ -66,7 +70,7 @@ export async function GET() {
               textAlign: "center",
               margin: 0,
             }}>
-            Solusi Digital untuk Bisnis Anda
+            {description}
           </p>
         </div>
       </div>

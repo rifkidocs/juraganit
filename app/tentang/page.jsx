@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
+import { notFound } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
@@ -57,6 +58,60 @@ function formatDate(dateString) {
     day: "numeric",
   };
   return new Date(dateString).toLocaleDateString("id-ID", options);
+}
+
+export async function generateMetadata() {
+  const aboutContent = await getAboutContent();
+  const plainTextDescription =
+    aboutContent.content.replace(/<[^>]*>/g, "").slice(0, 160) + "...";
+  const ogImageUrl = `${
+    process.env.NEXT_PUBLIC_SITE_URL
+  }/api/og?title=${encodeURIComponent(
+    aboutContent.judul
+  )}&description=${encodeURIComponent(plainTextDescription)}`;
+
+  return {
+    title: `${aboutContent.judul} | JuraganIT`,
+    description: plainTextDescription,
+    openGraph: {
+      title: aboutContent.judul,
+      description: plainTextDescription,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/tentang`,
+      siteName: "JuraganIT",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: aboutContent.judul,
+        },
+      ],
+      locale: "id_ID",
+      type: "article",
+      publishedTime: aboutContent.publishedAt,
+      modifiedTime: aboutContent.updatedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: aboutContent.judul,
+      description: plainTextDescription,
+      creator: "@juraganit",
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/tentang`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+  };
 }
 
 export default async function AboutPage() {

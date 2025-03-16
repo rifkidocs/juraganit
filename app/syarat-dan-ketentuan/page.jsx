@@ -1,3 +1,33 @@
+export const metadata = {
+  title: "Syarat dan Ketentuan - JuraganIT",
+  description: "Syarat dan ketentuan penggunaan layanan JuraganIT",
+  openGraph: {
+    title: "Syarat dan Ketentuan - JuraganIT",
+    description: "Syarat dan ketentuan penggunaan layanan JuraganIT",
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/syarat-dan-ketentuan`,
+    siteName: "JuraganIT",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Syarat dan Ketentuan&description=Syarat dan ketentuan penggunaan layanan JuraganIT`,
+        width: 1200,
+        height: 630,
+        alt: "Syarat dan Ketentuan - JuraganIT",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Syarat dan Ketentuan - JuraganIT",
+    description: "Syarat dan ketentuan penggunaan layanan JuraganIT",
+    images: [
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Syarat dan Ketentuan&description=Syarat dan ketentuan penggunaan layanan JuraganIT`,
+    ],
+    creator: "@juraganit",
+  },
+};
+
 export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
