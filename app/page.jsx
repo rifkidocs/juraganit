@@ -7,6 +7,49 @@ import Hero from "@/components/hero";
 import FeaturesGrid from "@/components/features-grid";
 import PricingCards from "@/components/pricing-cards";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata = {
+  title: "JuraganIT - Solusi Digital untuk Bisnis Anda",
+  description:
+    "Tingkatkan bisnis Anda dengan solusi digital terpercaya dari JuraganIT. Kami menyediakan layanan pengembangan website, aplikasi, dan solusi IT profesional untuk membantu bisnis Anda berkembang.",
+  openGraph: {
+    title: "JuraganIT - Solusi Digital untuk Bisnis Anda",
+    description:
+      "Tingkatkan bisnis Anda dengan solusi digital terpercaya dari JuraganIT. Kami menyediakan layanan pengembangan website, aplikasi, dan solusi IT profesional.",
+    url: process.env.NEXT_PUBLIC_SITE_URL,
+    siteName: "JuraganIT",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og`,
+        width: 1200,
+        height: 630,
+        alt: "JuraganIT - Solusi Digital untuk Bisnis Anda",
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JuraganIT - Solusi Digital untuk Bisnis Anda",
+    description:
+      "Tingkatkan bisnis Anda dengan solusi digital terpercaya dari JuraganIT",
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/api/og`],
+    creator: "@juraganit",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
 async function getData() {
   const res = await fetch(
