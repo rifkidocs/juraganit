@@ -2,7 +2,6 @@ export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
-import { notFound } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";

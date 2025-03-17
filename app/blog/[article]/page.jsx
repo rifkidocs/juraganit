@@ -1,18 +1,7 @@
 export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Calendar,
-  Clock,
-  Share2,
-  Mail,
-  Twitter,
-  Linkedin,
-  Facebook,
-  User,
-  Tag,
-  Folder,
-} from "lucide-react";
+import { Calendar, Clock, User, Folder } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -35,10 +24,13 @@ async function getArticle(slug) {
   );
 
   if (!res.ok) {
-    return notFound;
+    notFound();
   }
 
   const data = await res.json();
+  if (!data.data || data.data.length === 0) {
+    notFound();
+  }
   return data.data[0];
 }
 

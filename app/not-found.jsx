@@ -1,5 +1,26 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
+
+export const metadata = {
+  title: "404: Halaman Tidak Ditemukan | JuraganIT",
+  description:
+    "Maaf, halaman yang Anda cari tidak dapat ditemukan. Silakan kembali ke halaman utama atau hubungi kami jika Anda memerlukan bantuan.",
+  openGraph: {
+    title: "404: Halaman Tidak Ditemukan | JuraganIT",
+    description:
+      "Maaf, halaman yang Anda cari tidak dapat ditemukan. Silakan kembali ke halaman utama atau hubungi kami jika Anda memerlukan bantuan.",
+    images: [
+      {
+        url: `/api/og?title=${encodeURIComponent(
+          "404: Halaman Tidak Ditemukan"
+        )}&description=${encodeURIComponent(
+          "Maaf, halaman yang Anda cari tidak dapat ditemukan."
+        )}`,
+      },
+    ],
+  },
+};
 
 export default function NotFound() {
   return (
