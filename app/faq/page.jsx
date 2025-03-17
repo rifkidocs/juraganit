@@ -1,5 +1,36 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export async function generateMetadata() {
+  const title = "Frequently Asked Questions - JuraganIT";
+  const description =
+    "Temukan jawaban untuk pertanyaan umum tentang layanan dan solusi JuraganIT.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          title
+        )}&description=${encodeURIComponent(description)}`,
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          title
+        )}&description=${encodeURIComponent(description)}`,
+      ],
+    },
+  };
+}
 import { Card, CardContent } from "@/components/ui/card";
 import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";

@@ -3,9 +3,31 @@ import { FooterBlog } from "@/components/footer-blog";
 import { NavigationBlog } from "@/components/navigation-blog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Blog JuraganIT",
+  description:
+    "Selamat datang di blog JuraganIT, tempat di mana Anda bisa belajar tentang pengembangan web, pemrograman, dan teknologi.",
+  openGraph: {
+    title: "Blog JuraganIT",
+    description:
+      "Selamat datang di blog JuraganIT, tempat di mana Anda bisa belajar tentang pengembangan web, pemrograman, dan teknologi.",
+    images: [
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Blog JuraganIT&description=Selamat datang di blog JuraganIT`,
+    ],
+  },
+};
 
 export default async function BlogListing() {
   const getColorForCategory = (categoryName) => {
@@ -100,7 +122,9 @@ export default async function BlogListing() {
               className='group'>
               <Badge
                 variant='secondary'
-                className={`${getColorForCategory(category.name)[0]} ${getColorForCategory(category.name)[1]} text-white`}>
+                className={`${getColorForCategory(category.name)[0]} ${
+                  getColorForCategory(category.name)[1]
+                } text-white`}>
                 {category.name}
               </Badge>
             </Link>
@@ -151,17 +175,18 @@ export default async function BlogListing() {
                     <PaginationPrevious href={`/blog/page/${page - 1}`} />
                   </PaginationItem>
                 )}
-                {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map(
-                  (pageNumber) => (
-                    <PaginationItem key={pageNumber}>
-                      <PaginationLink
-                        href={`/blog/page/${pageNumber}`}
-                        isActive={pageNumber === page}>
-                        {pageNumber}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )
-                )}
+                {Array.from(
+                  { length: pagination.pageCount },
+                  (_, i) => i + 1
+                ).map((pageNumber) => (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      href={`/blog/page/${pageNumber}`}
+                      isActive={pageNumber === page}>
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
                 {page < pagination.pageCount && (
                   <PaginationItem>
                     <PaginationNext href={`/blog/page/${page + 1}`} />

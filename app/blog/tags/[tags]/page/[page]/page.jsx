@@ -15,6 +15,36 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params }) {
+  const tag = decodeURIComponent(params.tags.replace(/-/g, " "));
+  const title = `Artikel dengan tag "${tag}" | JuraganIT`;
+  const description = `Jelajahi artikel dengan tag ${tag} di JuraganIT - Sumber terpercaya untuk solusi bisnis digital Anda`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          tag
+        )}&description=${encodeURIComponent(description)}`,
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          tag
+        )}&description=${encodeURIComponent(description)}`,
+      ],
+    },
+  };
+}
+
 export default async function TagPagePaginated({ params }) {
   const tag = decodeURIComponent(params.tags.replace(/-/g, " "));
   const page = parseInt(params.page) || 1;

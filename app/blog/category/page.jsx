@@ -5,7 +5,38 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+
+export async function generateMetadata() {
+  const categoriesResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
+    {}
+  );
+  const categoriesData = await categoriesResponse.json();
+  const categoriesList = categoriesData.data;
+
+  return {
+    title: "Kategori Blog | JuraganIT",
+    description:
+      "Jelajahi artikel berdasarkan kategori. Setiap kategori berisi konten yang dikurasi berfokus pada topik spesifik untuk membantu Anda menemukan apa yang Anda cari.",
+    openGraph: {
+      title: "Kategori Blog | JuraganIT",
+      description:
+        "Jelajahi artikel berdasarkan kategori. Setiap kategori berisi konten yang dikurasi berfokus pada topik spesifik untuk membantu Anda menemukan apa yang Anda cari.",
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Kategori Blog&description=Jelajahi artikel berdasarkan kategori`,
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Kategori Blog | JuraganIT",
+      description:
+        "Jelajahi artikel berdasarkan kategori. Setiap kategori berisi konten yang dikurasi berfokus pada topik spesifik.",
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Kategori Blog&description=Jelajahi artikel berdasarkan kategori`,
+      ],
+    },
+  };
+}
 
 export default async function CategoryListing() {
   // Fetch categories first

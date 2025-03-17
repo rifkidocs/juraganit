@@ -15,6 +15,48 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params }) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/articles?filters[category][slug][$eq]=${params.category}&populate=*&pagination[page]=1&pagination[pageSize]=1`
+  );
+  const data = await response.json();
+  const category = data.data[0]?.category;
+
+  if (!category) {
+    return {
+      title: "Kategori Tidak Ditemukan | JuraganIT",
+      description: "Kategori yang Anda cari tidak ditemukan di blog JuraganIT.",
+    };
+  }
+
+  const title = `Artikel dalam kategori ${category.name} | JuraganIT`;
+  const description = `Jelajahi koleksi artikel ${category.name} di JuraganIT - Sumber terpercaya untuk solusi bisnis digital Anda`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          category.name
+        )}&description=${encodeURIComponent(description)}`,
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(
+          category.name
+        )}&description=${encodeURIComponent(description)}`,
+      ],
+    },
+  };
+}
+
 export default async function CategoryPage({ params }) {
   const page = 1;
   const postsPerPage = 6;

@@ -14,6 +14,29 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Blog JuraganIT",
+  description:
+    "Selamat datang di blog JuraganIT, tempat di mana Anda bisa belajar tentang pengembangan web, pemrograman, dan teknologi.",
+  openGraph: {
+    title: "Blog JuraganIT",
+    description:
+      "Selamat datang di blog JuraganIT, tempat di mana Anda bisa belajar tentang pengembangan web, pemrograman, dan teknologi.",
+    images: [
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Blog JuraganIT&description=Selamat datang di blog JuraganIT`,
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog JuraganIT",
+    description:
+      "Selamat datang di blog JuraganIT, tempat di mana Anda bisa belajar tentang pengembangan web, pemrograman, dan teknologi.",
+    images: [
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=Blog JuraganIT&description=Selamat datang di blog JuraganIT`,
+    ],
+  },
+};
+
 export default async function BlogListing({ params }) {
   const page = parseInt(params.page) || 1;
   const postsPerPage = 6;
