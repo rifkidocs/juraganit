@@ -78,7 +78,7 @@ export function Navigation({ dataPesan }) {
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link
-                      href='#'
+                      href='/kontak-kami'
                       className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-500/10 hover'>
                       Kontak Kami
                     </Link>
