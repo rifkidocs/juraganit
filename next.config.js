@@ -7,7 +7,11 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["rifkidocs.eu.org", "localhost"],
+    domains: [
+      "rifkidocs.eu.org",
+      "localhost",
+      "adminjuraganit.rifkidocs.eu.org",
+    ],
   },
 };
 
