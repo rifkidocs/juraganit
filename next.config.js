@@ -11,6 +11,7 @@ const nextConfig = {
       "rifkidocs.eu.org",
       "localhost",
       "adminjuraganit.rifkidocs.eu.org",
+      "admin.juraganitweb.co.id",
     ],
   },
 };
